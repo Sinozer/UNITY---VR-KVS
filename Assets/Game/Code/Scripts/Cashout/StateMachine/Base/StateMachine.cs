@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace FiniteStateMachine
 {
-    public class StateMachine : MonoBehaviour
+    public class StateMachine : SerializedMonoBehaviour
     {
+        [Header("State Machine")]
         [SerializeField] private BaseState _initialState = null;
 
         private BaseState _currentState = null;
