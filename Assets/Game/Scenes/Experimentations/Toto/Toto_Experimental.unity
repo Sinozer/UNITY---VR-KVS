@@ -45718,7 +45718,7 @@ GameObject:
   - component: {fileID: 1636420955}
   - component: {fileID: 1636420957}
   - component: {fileID: 1636420956}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: FloorCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45735,7 +45735,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -31.4}
-  m_LocalScale: {x: 4.428316, y: 4.428317, z: 8.358963}
+  m_LocalScale: {x: 2.8010087, y: 3.7629182, z: 6.8377924}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1130927378}
