@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _playerSpawnPoint;
 
-    // Update is called once per frame
-    void Update()
+    // Start is called before the first frame update
+    private void Start()
     {
-        
+        _player.transform.position = _playerSpawnPoint.transform.position;
     }
 }
