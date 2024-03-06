@@ -1,28 +1,14 @@
-﻿using System;
-using System.Linq;
-using Game.Code.Scripts.Extensions;
-using UnityEngine;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
 namespace Game.Code.Scripts
 {
     public class FurnitureScrollerBehavior : MonoBehaviour
     {
-        private BoxCollider _scrollArea;
-        
-        private void Start()
-        {
-            _scrollArea = GetComponent<BoxCollider>();
-        }
+        [SerializeField, Range(0, 10)] private float _scrollSpeed = 1;
 
-        private void Update()
+        private void OnTriggerStay(Collider other)
         {
-            foreach (var furniture in _scrollArea.GetGameObjectsInBounds().Where(furniture => !furniture.CompareTag("Static")))
-            {
-                furniture.transform.position += Vector3.forward * Time.deltaTime;
-            }
+            other.transform.position += Vector3.forward * (_scrollSpeed * Time.deltaTime);
         }
-        
-        
     }
 }

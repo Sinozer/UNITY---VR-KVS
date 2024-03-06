@@ -12983,6 +12983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f235565573c247e8bc6bb42399b5ea6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _scrollSpeed: 0.45
 --- !u!1001 &459915340
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24425,7 +24426,7 @@ GameObject:
   - component: {fileID: 836368660}
   - component: {fileID: 836368662}
   - component: {fileID: 836368661}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spawner
   m_TagString: Static
   m_Icon: {fileID: 0}
@@ -24459,7 +24460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca16bef7d0b4efd82c8b2b706fa90bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnRate: 0.92
+  spawnRate: 0.67
   furniturePrefabs:
   - {fileID: 2548617946769648236, guid: 487f493f6acbb634982f598fab2749d9, type: 3}
   - {fileID: 3663100520228814521, guid: 2a50a2300701fe44bba5bb5411edb20d, type: 3}
