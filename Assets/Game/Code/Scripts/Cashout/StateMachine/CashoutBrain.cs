@@ -1,49 +1,56 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using FiniteStateMachine;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
+﻿using FiniteStateMachine;
 using UnityEngine;
 
 public class CashoutBrain : StateMachine
 {
-    [Header("Clients")]
-    [SerializeField] private GameObject _clientPrefab;
-    [OdinSerialize, ReadOnly] private Queue<ClientBehavior> _waitingClients;
-    [SerializeField, ReadOnly] private ClientBehavior _currentClient;
-    [SerializeField, Range(0, 5)] private float _spawnRate;
-    private Coroutine _spawnCoroutine;
+    [SerializeField] private WaitingState _waitingState;
+    [SerializeField] private SpawningItemsState _spawningItemsState;
+    [SerializeField] private PaymentState _paymentState;
     
-    [Header("Waypoints")]
+    [Header("Clients")] 
+    [SerializeField] private ClientHolder _clientHolder;
+
+    [Header("Waypoints")] 
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _itemDeliveryPoint;
     [SerializeField] private Transform _paymentPoint;
-
-    [Header("State Machine")]
-    [SerializeField] private BaseState _spawningItemsState;
-    [SerializeField] private BaseState _paymentState;
-    
-    [Header("Door")]
     [SerializeField] private GameObject _door;
     
-    public void StopSpawning()
-    {
-        if (_spawnCoroutine != null) StopCoroutine(_spawnCoroutine);
-    }
-        
+    [Header("Furniture")]
+    [SerializeField] private BoxCollider _furnitureSpawnArea;
+    
     private void Start()
     {
-        _spawnCoroutine = StartCoroutine(SpawnClients());
+        _clientHolder.Initialize(_spawnPoint);
+        _clientHolder.StartSpawning();
+        
+        GoBackToWaitingState();
     }
     
-    private IEnumerator SpawnClients()
+    private void GoBackToWaitingState()
     {
-        while (true)
-        {
-            Vector3 spawnPoint = _spawnPoint.position;
-            ClientBehavior client = Instantiate(_clientPrefab, spawnPoint, Quaternion.identity).GetComponent<ClientBehavior>();
-            _waitingClients.Enqueue(client);
-            yield return new WaitForSeconds(_spawnRate);
-        }
+        ChangeState(_waitingState, _clientHolder.CurrentClient, _itemDeliveryPoint);
+        _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;
+    }
+    
+    private void OnClientArrivedAtDeliveryPoint()
+    {
+        ChangeState(_spawningItemsState, _clientHolder.CurrentClient, _furnitureSpawnArea);
+        _spawningItemsState.OnClientItemsSpawned += OnClientItemsSpawned;
+    }
+    
+    private void OnClientItemsSpawned()
+    {
+        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint);
+        _paymentState.OnClientFinished += OnClientFinished;
+    }
+    
+    private void OnClientFinished()
+    {
+        _clientHolder.OnCurrentClientFinished();
+        
+        GoBackToWaitingState();
+        
+        _door.SetActive(false);
     }
 }
