@@ -16,7 +16,7 @@ namespace Game.Code.Scripts
         private void Start()
         {
             _spawnArea = GetComponent<BoxCollider>();
-            _spawnCoroutine = StartCoroutine(SpawnFurniture());
+            //_spawnCoroutine = StartCoroutine(SpawnFurniture());
         }
         
         private IEnumerator SpawnFurniture()
