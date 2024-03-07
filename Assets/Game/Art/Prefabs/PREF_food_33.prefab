@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2749644330304858290}
   - component: {fileID: 2994467984608603719}
   - component: {fileID: 999069264072586290}
-  m_Layer: 0
+  m_Layer: 23
   m_Name: PREF_food_33
   m_TagString: Untagged
   m_Icon: {fileID: 0}
