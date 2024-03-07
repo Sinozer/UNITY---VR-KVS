@@ -57990,6 +57990,10 @@ PrefabInstance:
       value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6312852228177388544, guid: b7beb28e2830cfa43b3ddebe6a0160c7, type: 3}
+      propertyPath: _rotationAngle
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312852228177388544, guid: b7beb28e2830cfa43b3ddebe6a0160c7, type: 3}
       propertyPath: _delayBeforeWalkingToPayment
       value: 1
       objectReference: {fileID: 0}
