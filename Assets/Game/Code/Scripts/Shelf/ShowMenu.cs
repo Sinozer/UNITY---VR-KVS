@@ -14,6 +14,7 @@ public class ShowMenu : MonoBehaviour
     [Header("UI Texts")]
     [SerializeField] private TextMeshProUGUI _itemNameText;
     [SerializeField] private TextMeshProUGUI _itemValueText;
+    [SerializeField] private TextMeshProUGUI _itemPrice; 
     
     [Header("Debug")]
     [SerializeField] private bool _isTrigger;
@@ -27,7 +28,7 @@ public class ShowMenu : MonoBehaviour
     {
         _itemValueText.text = _maxItemNumber.ToString();
         _currentItemNumber = _maxItemNumber;
-        //TODO Get the item name from the ScriptableObject
+        //TODO Get the item name from the ScriptableObject && price 
     }
 
     public void MenuManager()
