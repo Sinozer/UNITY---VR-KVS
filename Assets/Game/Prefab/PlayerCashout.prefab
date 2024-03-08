@@ -4352,7 +4352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9cb91cd24aa00944a40d91c6e895898, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _productListLayout: {fileID: 0}
+  _productListLayout: {fileID: 8127117785553006682}
   textAndPricePrefab: {fileID: 892540574568469153, guid: a467e1455a98dbd4a9b5301c2f30c2e0, type: 3}
 --- !u!224 &7673728516121326390 stripped
 RectTransform:
