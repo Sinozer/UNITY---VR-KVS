@@ -9,7 +9,6 @@ public class CashoutBrain : StateMachine
 {
     public float TotalScannedPrice { get; private set; }
     
-    public event Action OnItemScanned;
 
     [SerializeField] private WaitingState _waitingState;
     [SerializeField] private SpawningItemsState _spawningItemsState;
@@ -25,6 +24,7 @@ public class CashoutBrain : StateMachine
     [SerializeField] private GameObject _door;
     
     [Header("Furniture")]
+    [SerializeField] private FurnitureScanner _furnitureScanner;
     [SerializeField] private BoxCollider _furnitureSpawnArea;
     
     [Header("UI")]
@@ -32,10 +32,18 @@ public class CashoutBrain : StateMachine
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
     
+    public event Action OnItemRegistered;
+    
     
     private void OnEnable()
     {
         _cashoutDisplayUI.OnProductListChanged += () => _totalTextUI.SetPrice(TotalScannedPrice);
+        _furnitureScanner.OnItemScanned += RegisterItemToCashout;
+    }
+    
+    private void OnDisable()
+    {
+        _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
     }
     
     private void Start()
@@ -55,7 +63,7 @@ public class CashoutBrain : StateMachine
         _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
         _cashoutDisplayUI.AddItemInfoToList(product);
         
-        OnItemScanned?.Invoke();
+        OnItemRegistered?.Invoke();
     }
 
     public void ResetCashout()
