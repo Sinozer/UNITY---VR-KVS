@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using FiniteStateMachine;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class CashoutBrain : StateMachine
@@ -27,39 +28,14 @@ public class CashoutBrain : StateMachine
     [SerializeField] private BoxCollider _furnitureSpawnArea;
     
     [Header("UI")]
+    [SerializeField] private CashoutDisplayUI _cashoutDisplayUI;
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
-    [SerializeField] private ProductListUI _productListUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
     
-    [SerializeField] private List<ItemSo> _items;
-
-    public void RegisterItemToCashout(ItemSo product)
-    {
-        TotalScannedPrice += product.ItemPrice;
-        
-        _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
-        _productListUI.AddItemInfoToList(product);
-        
-        OnItemScanned?.Invoke();
-    }
-
-    public void ResetCashout()
-    {
-        TotalScannedPrice = 0;
-        
-        _productListUI.ResetRegisteredProducts();
-        _totalTextUI.ResetPrice();
-        _lastProductDisplayUI.ResetAll();
-    }
-
-    public void ShowTotal()
-    {
-        _lastProductDisplayUI.SetTextAndPrice("Total:", TotalScannedPrice);
-    }
     
     private void OnEnable()
     {
-        _productListUI.OnProductListChanged += () => _totalTextUI.SetPrice(TotalScannedPrice);
+        _cashoutDisplayUI.OnProductListChanged += () => _totalTextUI.SetPrice(TotalScannedPrice);
     }
     
     private void Start()
@@ -70,6 +46,39 @@ public class CashoutBrain : StateMachine
         _clientHolder.StartSpawning();
         
         GoBackToWaitingState();
+    }
+    
+    public void RegisterItemToCashout(ItemSo product)
+    {
+        TotalScannedPrice += product.ItemPrice;
+        
+        _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
+        _cashoutDisplayUI.AddItemInfoToList(product);
+        
+        OnItemScanned?.Invoke();
+    }
+
+    public void ResetCashout()
+    {
+        TotalScannedPrice = 0;
+        
+        _cashoutDisplayUI.SetProductListView();
+        
+        _totalTextUI.ResetPrice();
+        _lastProductDisplayUI.ResetAll();
+    }
+
+    [Button]
+    public void ShowPaymentView()
+    {
+        _lastProductDisplayUI.SetTextAndPrice("Total:", TotalScannedPrice);
+        _cashoutDisplayUI.SetPaymentView(TotalScannedPrice);
+    }
+
+    public void ConfirmPaymentPrice()
+    {
+        float enteredPrice = _cashoutDisplayUI.EnteredPrice;
+        ResetCashout();
     }
     
     private void GoBackToWaitingState()

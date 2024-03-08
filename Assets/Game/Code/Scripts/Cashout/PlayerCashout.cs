@@ -11,7 +11,6 @@ public class PlayerCashout : MonoBehaviour
     [SerializeField] private CashoutDisplayUI _cashoutDisplayUI;
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
-    [SerializeField] private List<ItemSo> _items;
 
     
     private float _totalScannedPrice;
@@ -28,19 +27,6 @@ public class PlayerCashout : MonoBehaviour
     private void Start()
     {
         ResetCashout();
-        
-        StartCoroutine(AddItemCoroutine());
-
-        IEnumerator AddItemCoroutine()
-        {
-            yield return new WaitForSeconds(5f);
-            
-            foreach (var item in _items)
-            {
-                RegisterItemToCashout(item);
-                yield return new WaitForSeconds(1f);
-            }
-        }
     }
 
     public void RegisterItemToCashout(ItemSo product)

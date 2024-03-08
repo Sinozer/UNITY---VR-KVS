@@ -7,7 +7,7 @@ namespace Game.Code.Scripts
     {
         private void Start()
         {
-            throw new NotImplementedException();
+            
         }
 
         public bool CanBeGrabbed => _isGrabbed;
