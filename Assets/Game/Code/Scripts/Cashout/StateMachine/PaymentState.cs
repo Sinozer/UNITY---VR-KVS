@@ -56,7 +56,6 @@ public class PaymentState : BaseState
         {
             float rotationAngle = Mathf.Lerp(angleA, angleB, _clientRotationCurve.Evaluate(time));
             _currentClient.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
-            Debug.Log("Rotating client to " + rotationAngle);
 
             time += Time.deltaTime;
             yield return null;

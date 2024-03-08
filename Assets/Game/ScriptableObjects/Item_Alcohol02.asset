@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccf4101e4404905a2aa4436775a3770, type: 3}
   m_Name: Item_Alcohol02
   m_EditorClassIdentifier: 
+  _itemImage: {fileID: 0}
   _itemName: "Cura\xE7ao"
   _itemPrice: 14.99
-  _prefab: {fileID: 0}
+  _prefab: {fileID: 112336, guid: 26f168a2d64a86b4187843938e019b18, type: 3}
