@@ -46,16 +46,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 2d010d0000005f00730068006f007000700069006e0067004c00690073007400
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: _shoppingList
+      Entry: 6
+      Data: 
   _maxDifferentItems: 4
   _maxItemsPerCategory: 7
+  _delayBetweenItems: 1
 --- !u!1001 &5137935296468326883
 PrefabInstance:
   m_ObjectHideFlags: 0

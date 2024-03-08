@@ -14,9 +14,10 @@ public class CashoutBrain : StateMachine
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _itemDeliveryPoint;
     [SerializeField] private Transform _paymentPoint;
-    
-    [Header("Door")] 
     [SerializeField] private GameObject _door;
+    
+    [Header("Furniture")]
+    [SerializeField] private BoxCollider _furnitureSpawnArea;
     
     private void Start()
     {
@@ -34,7 +35,14 @@ public class CashoutBrain : StateMachine
     
     private void OnClientArrivedAtDeliveryPoint()
     {
-        ChangeState(_spawningItemsState, _clientHolder.CurrentClient);
+        ChangeState(_spawningItemsState, _clientHolder.CurrentClient, _furnitureSpawnArea);
+        _spawningItemsState.OnClientItemsSpawned += OnClientItemsSpawned;
+    }
+    
+    private void OnClientItemsSpawned()
+    {
+        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint);
+        _paymentState.OnClientFinished += OnClientFinished;
     }
     
     private void OnClientFinished()
