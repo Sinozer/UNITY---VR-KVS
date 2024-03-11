@@ -8,7 +8,7 @@ namespace Game.Code.Scripts
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out FurnitureBehavior furniture) is false) return;
+            if (other.gameObject.TryGetComponent(out Furniture furniture) is false) return;
             
             if (furniture.CanBeGrabbed) return;
             
