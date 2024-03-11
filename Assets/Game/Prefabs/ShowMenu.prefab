@@ -237,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxItemNumber: 5
+  _itemInfo: {fileID: 0}
   _currentItemNumber: 0
   _itemNameText: {fileID: 2867545597720309332}
   _itemValueText: {fileID: 3192008789336615643}
