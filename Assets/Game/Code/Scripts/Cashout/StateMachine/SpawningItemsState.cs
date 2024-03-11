@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections;
 using FiniteStateMachine;
-using Game.Code.Scripts.Extensions;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
 
 public class SpawningItemsState : BaseState
 {
@@ -25,7 +23,7 @@ public class SpawningItemsState : BaseState
         StartCoroutine(ClientCoroutine());
 
         return;
-        
+
         IEnumerator ClientCoroutine()
         {
             yield return RotateClient();
@@ -60,15 +58,6 @@ public class SpawningItemsState : BaseState
 
     private IEnumerator SpawnClientItem()
     {
-        foreach (var item in _currentClient.ShoppingList)
-        {
-            for (int i = 0; i < item.Value; i++)
-            {
-                Vector3 spawnPoint = _spawnArea.RandomPointInBounds();
-                GameObject _ = Instantiate(item.Key.Prefab, spawnPoint, Quaternion.identity);
-                yield return new WaitForSeconds(_currentClient.DelayBetweenItems);
-            }
-        }
-        yield return null;
+        yield return _currentClient.SpawnItems(_spawnArea);
     }
 }

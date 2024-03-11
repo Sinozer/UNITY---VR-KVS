@@ -1,17 +1,16 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Game.Code.Scripts
+public class FurnitureBehavior : MonoBehaviour
 {
-    public class FurnitureBehavior : MonoBehaviour
+    private void Start()
     {
-        private void Start()
-        {
             
-        }
-
-        public bool CanBeGrabbed => _isGrabbed;
-        
-        private bool _isGrabbed;
     }
+
+    public bool CanBeGrabbed => _isGrabbed;
+        
+    public ItemSo So { get; set; }
+
+    private bool _isGrabbed;
 }

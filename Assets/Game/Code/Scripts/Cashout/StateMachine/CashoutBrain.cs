@@ -9,7 +9,6 @@ public class CashoutBrain : StateMachine
 {
     public float TotalScannedPrice { get; private set; }
     
-
     [SerializeField] private WaitingState _waitingState;
     [SerializeField] private SpawningItemsState _spawningItemsState;
     [SerializeField] private PaymentState _paymentState;
@@ -21,7 +20,11 @@ public class CashoutBrain : StateMachine
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _itemDeliveryPoint;
     [SerializeField] private Transform _paymentPoint;
+    
+    [Header("Door")]
     [SerializeField] private GameObject _door;
+    [SerializeField] private AnimationCurve _doorCurve;
+    [SerializeField, Range(-180, 180)] private float _doorAngle;
     
     [Header("Furniture")]
     [SerializeField] private FurnitureScanner _furnitureScanner;
@@ -33,7 +36,7 @@ public class CashoutBrain : StateMachine
     [SerializeField] private TextAndPriceUI _totalTextUI;
     
     public event Action OnItemRegistered;
-    
+    public event Action<float> OnTotalPriceRegistered;
     
     private void OnEnable()
     {
@@ -86,6 +89,7 @@ public class CashoutBrain : StateMachine
     public void ConfirmPaymentPrice()
     {
         float enteredPrice = _cashoutDisplayUI.EnteredPrice;
+        OnTotalPriceRegistered?.Invoke(enteredPrice);
         ResetCashout();
     }
     
@@ -113,6 +117,25 @@ public class CashoutBrain : StateMachine
         
         GoBackToWaitingState();
         
-        _door.SetActive(false);
+        StartCoroutine(OpenDoor());
+
+        return;
+        
+        IEnumerator OpenDoor()
+        {
+            float time = 0.0f;
+            float duration = _doorCurve.keys[_doorCurve.length - 1].time;
+        
+            while (time < duration)
+            {
+                float doorAngle = _doorCurve.Evaluate(time) * _doorAngle;
+                _door.transform.localRotation = Quaternion.Euler(0.0f, doorAngle, 0.0f);
+            
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
     }
+    
+    
 }

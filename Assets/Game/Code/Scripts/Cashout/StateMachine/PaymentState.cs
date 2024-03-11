@@ -28,6 +28,9 @@ public class PaymentState : BaseState
         
         IEnumerator ClientCoroutine()
         {
+            var brain = stateMachine as CashoutBrain;
+            brain!.OnTotalPriceRegistered += OnTotalPriceRegistered;
+            
             yield return RotateClient(false);
 
             yield return new WaitForSeconds(_delayBeforeWalkingToPayment);
@@ -36,7 +39,7 @@ public class PaymentState : BaseState
 
             yield return RotateClient(true);
 
-            // Register that the player registered the amount to pay
+            //_currentClient.PrepareToLeave();
             
             // If the player did register, pay and leave
         }
@@ -44,6 +47,7 @@ public class PaymentState : BaseState
     
     private ClientBehavior _currentClient;
     private Transform _paymentPoint;
+    private Transform _leavePoint;
     
     private IEnumerator RotateClient(bool shouldFaceCashOut)
     {
@@ -69,6 +73,34 @@ public class PaymentState : BaseState
         {
             _currentClient.transform.position = Vector3.MoveTowards(_currentClient.transform.position, _paymentPoint.position, step);
             yield return null;
+        }
+    }
+    
+    private void OnTotalPriceRegistered(float totalPrice)
+    {
+        _currentClient.PrepareToLeave(totalPrice);
+        
+        OnClientFinished?.Invoke();
+        
+        StartCoroutine(LeaveCoroutine());
+
+        return;
+        
+        IEnumerator LeaveCoroutine()
+        {
+            yield return RotateClient(false);
+
+            yield return WalkOut();
+        }
+
+        IEnumerator WalkOut()
+        {
+            float step = _clientSpeed * Time.deltaTime;
+            while (Vector3.Distance(_currentClient.transform.position, _leavePoint.position) > _paymentWaypointAcceptanceRadius)
+            {
+                _currentClient.transform.position = Vector3.MoveTowards(_currentClient.transform.position, _leavePoint.position, step);
+                yield return null;
+            }
         }
     }
 }
