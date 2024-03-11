@@ -57,9 +57,9 @@ MonoBehaviour:
     - Name: _shoppingList
       Entry: 6
       Data: 
-  _maxDifferentItems: 4
-  _maxItemsPerCategory: 7
-  _delayBetweenItems: 1
+  _maxDifferentItems: 1
+  _maxItemsPerCategory: 1
+  _delayBetweenItems: 0
 --- !u!1001 &5137935296468326883
 PrefabInstance:
   m_ObjectHideFlags: 0
