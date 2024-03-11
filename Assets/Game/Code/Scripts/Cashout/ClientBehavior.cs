@@ -29,9 +29,10 @@ public class ClientBehavior : SerializedMonoBehaviour
             for (int i = 0; i < item.Value; i++)
             {
                 Vector3 spawnPoint = spawnArea.RandomPointInBounds();
-                FurnitureBehavior go = Instantiate(item.Key.Prefab, spawnPoint, Quaternion.identity)
+                FurnitureBehavior furniture = Instantiate(item.Key.Prefab, spawnPoint, Quaternion.identity)
                     .GetComponent<FurnitureBehavior>();
-                _spawnedItems.Add(go);
+                furniture.So = item.Key;
+                _spawnedItems.Add(furniture);
                 yield return new WaitForSeconds(_delayBetweenItems);
             }
         }
@@ -47,7 +48,7 @@ public class ClientBehavior : SerializedMonoBehaviour
 
         foreach (FurnitureBehavior item in _spawnedItems)
         {
-            Destroy(item);
+            Destroy(item.gameObject);
         }
     }
 
@@ -56,6 +57,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     private void Start()
     {
         _shoppingList = new Dictionary<ItemSo, int>();
+        _spawnedItems = new List<FurnitureBehavior>();
 
         for (int i = 0; i < _maxDifferentItems; i++)
         {

@@ -20,11 +20,13 @@ public class CashoutBrain : StateMachine
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _itemDeliveryPoint;
     [SerializeField] private Transform _paymentPoint;
+    [SerializeField] private Transform _leavePoint;
     
     [Header("Door")]
     [SerializeField] private GameObject _door;
     [SerializeField] private AnimationCurve _doorCurve;
     [SerializeField, Range(-180, 180)] private float _doorAngle;
+    [SerializeField, Range(0, 10)] private float _delayBeforeDoorClose;
     
     [Header("Furniture")]
     [SerializeField] private FurnitureScanner _furnitureScanner;
@@ -107,33 +109,45 @@ public class CashoutBrain : StateMachine
     
     private void OnClientItemsSpawned()
     {
-        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint);
+        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint, _leavePoint);
         _paymentState.OnClientFinished += OnClientFinished;
     }
     
     private void OnClientFinished()
     {
-        _clientHolder.OnCurrentClientFinished();
+        StartCoroutine(DoorCoroutine());
         
         GoBackToWaitingState();
-        
-        StartCoroutine(OpenDoor());
 
         return;
         
-        IEnumerator OpenDoor()
+        IEnumerator DoorCoroutine()
         {
-            float time = 0.0f;
-            float duration = _doorCurve.keys[_doorCurve.length - 1].time;
-        
-            while (time < duration)
-            {
-                float doorAngle = _doorCurve.Evaluate(time) * _doorAngle;
-                _door.transform.localRotation = Quaternion.Euler(0.0f, doorAngle, 0.0f);
+            yield return StartCoroutine(SetDoorRotation(true));
             
-                time += Time.deltaTime;
-                yield return null;
-            }
+            yield return new WaitForSeconds(_delayBeforeDoorClose);
+            
+            yield return StartCoroutine(SetDoorRotation(false));
+            
+            _clientHolder.OnCurrentClientFinished();
+        }
+    }
+    
+    private IEnumerator SetDoorRotation(bool shouldOpen)
+    {
+        float time = 0.0f;
+        float duration = _doorCurve.keys[_doorCurve.length - 1].time;
+        float angleA = shouldOpen ? 0.0f : _doorAngle;
+        float angleB = shouldOpen ? _doorAngle : 0.0f;
+
+        while (time < duration)
+        {
+            float rotationAngle = Mathf.Lerp(angleA, angleB, _doorCurve.Evaluate(time));
+            _door.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
+            Debug.Log("Door rotation: " + rotationAngle);
+
+            time += Time.deltaTime;
+            yield return null;
         }
     }
     
