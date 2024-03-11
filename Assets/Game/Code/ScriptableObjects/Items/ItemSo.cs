@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item_", menuName = "ItemsSO", order = 0)]
 public class ItemSo : ScriptableObject
@@ -24,5 +25,5 @@ public class ItemSo : ScriptableObject
 
     [SerializeField] private float _itemPrice;
 
-    [SerializeField] private GameObject _prefab;
+    [SerializeField, PreviewField(height:300)] private GameObject _prefab;
 }
