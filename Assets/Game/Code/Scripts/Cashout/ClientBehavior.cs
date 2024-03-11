@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Extensions;
 using Game.Code.Scripts;
-using Game.Code.Scripts.Extensions;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -67,7 +67,7 @@ public class ClientBehavior : SerializedMonoBehaviour
 
         for (int i = 0; i < _maxDifferentItems; i++)
         {
-            ItemSo randomItem = ItemRegistry.Instance.RandomItem;
+            ItemSo randomItem = GameManager.ItemRegistry.RandomItem;
             if (_shoppingList.ContainsKey(randomItem)) return;
 
             _shoppingList.Add(randomItem, Random.Range(1, _maxItemsPerCategory));
