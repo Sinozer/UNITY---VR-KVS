@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using FiniteStateMachine;
+﻿using FiniteStateMachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -89,7 +86,7 @@ public class CashoutBrain : StateMachine
 
     private void UpdateTotalPriceText()
     {
-        _totalTextUI.SetPrice(TotalScannedPrice);
+        _totalTextUI.SetPrice(Mathf.Round(TotalScannedPrice * 100f) / 100f);
     }
 
     [Button]
