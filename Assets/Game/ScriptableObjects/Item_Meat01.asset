@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccf4101e4404905a2aa4436775a3770, type: 3}
   m_Name: Item_Meat01
   m_EditorClassIdentifier: 
+  _itemImage: {fileID: 0}
   _itemName: Steak
   _itemPrice: 2.99
   _prefab: {fileID: 195960, guid: f4a307220c48e614ea7882a39e6d5811, type: 3}
