@@ -11,13 +11,17 @@ public class FurnitureScanner : MonoBehaviour
     
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out FurnitureBehavior product))
+        if (other.TryGetComponent(out Furniture product))
         {
-            Debug.Log("bip");
+            if (!product.ProductSo)
+            {
+                Debug.LogError("Product doesn't contain the SO");
+                return;
+            }
+            
+            Debug.Log("Product " + product.ProductSo.ItemName + " scanned");
             _audioSource.Play();
-            /*
-            OnItemScanned?.Invoke(item);
-            */
+            OnItemScanned?.Invoke(product.ProductSo);
         }
     }
 }

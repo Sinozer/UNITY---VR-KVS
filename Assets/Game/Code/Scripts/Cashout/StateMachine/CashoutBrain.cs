@@ -31,13 +31,12 @@ public class CashoutBrain : StateMachine
     [SerializeField] private CashoutDisplayUI _cashoutDisplayUI;
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
-    
-    public event Action OnItemRegistered;
+
+    private int _globalProductIndex;
     
     
     private void OnEnable()
     {
-        _cashoutDisplayUI.OnProductListChanged += () => _totalTextUI.SetPrice(TotalScannedPrice);
         _furnitureScanner.OnItemScanned += RegisterItemToCashout;
     }
     
@@ -55,25 +54,42 @@ public class CashoutBrain : StateMachine
         
         GoBackToWaitingState();
     }
-    
-    public void RegisterItemToCashout(ItemSo product)
+
+    private void RegisterItemToCashout(ItemSo product)
     {
+        _globalProductIndex++;
         TotalScannedPrice += product.ItemPrice;
         
         _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
-        _cashoutDisplayUI.AddItemInfoToList(product);
+        _cashoutDisplayUI.AddItemInfoToList(product, _globalProductIndex, RemoveSelectedProduct);
+
+        UpdateTotalPriceText();
+    }
+    
+    private void RemoveSelectedProduct(int index)
+    {
+        float productPrice = _cashoutDisplayUI.RemoveSelectedItemAndGetPrice(index);
+        TotalScannedPrice -= productPrice;
         
-        OnItemRegistered?.Invoke();
+        UpdateTotalPriceText();
     }
 
-    public void ResetCashout()
+    private void ResetCashout()
     {
+        _globalProductIndex = 0;
         TotalScannedPrice = 0;
         
         _cashoutDisplayUI.SetProductListView();
         
         _totalTextUI.ResetPrice();
         _lastProductDisplayUI.ResetAll();
+
+        UpdateTotalPriceText();
+    }
+
+    private void UpdateTotalPriceText()
+    {
+        _totalTextUI.SetPrice(TotalScannedPrice);
     }
 
     [Button]

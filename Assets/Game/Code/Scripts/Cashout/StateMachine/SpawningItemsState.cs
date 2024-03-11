@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using FiniteStateMachine;
+using Game.Code.Scripts;
 using Game.Code.Scripts.Extensions;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
@@ -65,7 +66,8 @@ public class SpawningItemsState : BaseState
             for (int i = 0; i < item.Value; i++)
             {
                 Vector3 spawnPoint = _spawnArea.RandomPointInBounds();
-                GameObject _ = Instantiate(item.Key.Prefab, spawnPoint, Quaternion.identity);
+                Furniture _ = Instantiate(item.Key.Prefab, spawnPoint, Quaternion.identity).GetComponent<Furniture>();
+                _.Initialize(item.Key);
                 yield return new WaitForSeconds(_currentClient.DelayBetweenItems);
             }
         }
