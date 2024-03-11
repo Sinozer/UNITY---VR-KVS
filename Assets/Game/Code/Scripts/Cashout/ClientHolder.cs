@@ -35,6 +35,8 @@ public class ClientHolder : MonoBehaviour
     
     public void OnCurrentClientFinished()
     {
+        Destroy(_currentClient.gameObject);
+        
         _currentClient = null;
         
         if (_waitingClients.Count > 0)

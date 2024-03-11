@@ -1,4 +1,6 @@
-﻿using FiniteStateMachine;
+﻿using System;
+using System.Collections;
+using FiniteStateMachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -6,7 +8,6 @@ public class CashoutBrain : StateMachine
 {
     public float TotalScannedPrice { get; private set; }
     
-
     [SerializeField] private WaitingState _waitingState;
     [SerializeField] private SpawningItemsState _spawningItemsState;
     [SerializeField] private PaymentState _paymentState;
@@ -18,7 +19,13 @@ public class CashoutBrain : StateMachine
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private Transform _itemDeliveryPoint;
     [SerializeField] private Transform _paymentPoint;
+    [SerializeField] private Transform _leavePoint;
+    
+    [Header("Door")]
     [SerializeField] private GameObject _door;
+    [SerializeField] private AnimationCurve _doorCurve;
+    [SerializeField, Range(-180, 180)] private float _doorAngle;
+    [SerializeField, Range(0, 10)] private float _delayBeforeDoorClose;
     
     [Header("Furniture")]
     [SerializeField] private FurnitureScanner _furnitureScanner;
@@ -30,7 +37,7 @@ public class CashoutBrain : StateMachine
     [SerializeField] private TextAndPriceUI _totalTextUI;
 
     private int _globalProductIndex;
-    
+    public event Action<float> OnTotalPriceRegistered;
     
     private void OnEnable()
     {
@@ -99,6 +106,7 @@ public class CashoutBrain : StateMachine
     public void ConfirmPaymentPrice()
     {
         float enteredPrice = _cashoutDisplayUI.EnteredPrice;
+        OnTotalPriceRegistered?.Invoke(enteredPrice);
         ResetCashout();
     }
     
@@ -116,16 +124,47 @@ public class CashoutBrain : StateMachine
     
     private void OnClientItemsSpawned()
     {
-        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint);
+        ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint, _leavePoint);
         _paymentState.OnClientFinished += OnClientFinished;
     }
     
     private void OnClientFinished()
     {
-        _clientHolder.OnCurrentClientFinished();
+        StartCoroutine(DoorCoroutine());
         
         GoBackToWaitingState();
+
+        return;
         
-        _door.SetActive(false);
+        IEnumerator DoorCoroutine()
+        {
+            yield return StartCoroutine(SetDoorRotation(true));
+            
+            yield return new WaitForSeconds(_delayBeforeDoorClose);
+            
+            yield return StartCoroutine(SetDoorRotation(false));
+            
+            _clientHolder.OnCurrentClientFinished();
+        }
     }
+    
+    private IEnumerator SetDoorRotation(bool shouldOpen)
+    {
+        float time = 0.0f;
+        float duration = _doorCurve.keys[_doorCurve.length - 1].time;
+        float angleA = shouldOpen ? 0.0f : _doorAngle;
+        float angleB = shouldOpen ? _doorAngle : 0.0f;
+
+        while (time < duration)
+        {
+            float rotationAngle = Mathf.Lerp(angleA, angleB, _doorCurve.Evaluate(time));
+            _door.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
+            Debug.Log("Door rotation: " + rotationAngle);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+    
+    
 }
