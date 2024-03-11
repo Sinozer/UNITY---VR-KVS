@@ -61,7 +61,7 @@ public class ClientBehavior : SerializedMonoBehaviour
 
         for (int i = 0; i < _maxDifferentItems; i++)
         {
-            ItemSo randomItem = ItemRegistry.Instance.RandomItem;
+            ItemSo randomItem = GameManager.ItemRegistry.RandomItem;
             if (_shoppingList.ContainsKey(randomItem)) return;
 
             _shoppingList.Add(randomItem, Random.Range(1, _maxItemsPerCategory));
