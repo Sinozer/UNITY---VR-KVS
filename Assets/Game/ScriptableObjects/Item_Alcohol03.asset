@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccf4101e4404905a2aa4436775a3770, type: 3}
   m_Name: Item_Alcohol03
   m_EditorClassIdentifier: 
+  _itemImage: {fileID: 0}
   _itemName: Rhum
   _itemPrice: 24.99
   _prefab: {fileID: 189482, guid: 5f2d1576dd1f6dc4bab5733426ea727e, type: 3}
