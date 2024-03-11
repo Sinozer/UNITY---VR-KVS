@@ -1,18 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerCashout : MonoBehaviour
 {
-    public float totalScannedPrice => _totalScannedPrice;
+    public float TotalScannedPrice => _totalScannedPrice;
     
+    [SerializeField] private CashoutDisplayUI _cashoutDisplayUI;
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
-    [SerializeField] private ProductListUI _productListUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
-    
-    [SerializeField] private List<ItemSo> _items;
 
+    
     private float _totalScannedPrice;
     
     public event Action OnItemScanned;
@@ -20,26 +20,13 @@ public class PlayerCashout : MonoBehaviour
 
     private void OnEnable()
     {
-        _productListUI.OnProductListChanged += () => _totalTextUI.SetPrice(_totalScannedPrice);
+        _cashoutDisplayUI.OnProductListChanged += () => _totalTextUI.SetPrice(_totalScannedPrice);
     }
 
 
     private void Start()
     {
         ResetCashout();
-        
-        StartCoroutine(AddItemCoroutine());
-
-        IEnumerator AddItemCoroutine()
-        {
-            yield return new WaitForSeconds(5f);
-            
-            foreach (var item in _items)
-            {
-                RegisterItemToCashout(item);
-                yield return new WaitForSeconds(1f);
-            }
-        }
     }
 
     public void RegisterItemToCashout(ItemSo product)
@@ -47,7 +34,7 @@ public class PlayerCashout : MonoBehaviour
         _totalScannedPrice += product.ItemPrice;
         
         _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
-        _productListUI.AddItemInfoToList(product);
+        _cashoutDisplayUI.AddItemInfoToList(product);
         
         OnItemScanned?.Invoke();
     }
@@ -56,13 +43,22 @@ public class PlayerCashout : MonoBehaviour
     {
         _totalScannedPrice = 0;
         
-        _productListUI.ResetRegisteredProducts();
+        _cashoutDisplayUI.SetProductListView();
+        
         _totalTextUI.ResetPrice();
         _lastProductDisplayUI.ResetAll();
     }
-
-    public void ShowTotal()
+    
+    [Button]
+    public void ShowPaymentView()
     {
         _lastProductDisplayUI.SetTextAndPrice("Total:", _totalScannedPrice);
+        _cashoutDisplayUI.SetPaymentView(_totalScannedPrice);
+    }
+
+    public void ConfirmPaymentPrice()
+    {
+        float enteredPrice = _cashoutDisplayUI.EnteredPrice;
+        ResetCashout();
     }
 }

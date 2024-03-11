@@ -8,6 +8,10 @@ namespace Game.Code.Scripts
 
         private void OnTriggerStay(Collider other)
         {
+            if (other.gameObject.TryGetComponent(out FurnitureBehavior furniture) is false) return;
+            
+            if (furniture.CanBeGrabbed) return;
+            
             other.transform.position += Vector3.forward * (_scrollSpeed * Time.deltaTime);
         }
     }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4412020464796160811}
   - component: {fileID: 213563092030616673}
   - component: {fileID: 3472458680357818104}
+  - component: {fileID: 4285578127583841873}
   m_Layer: 23
   m_Name: PREF_food_36
   m_TagString: Untagged
@@ -299,3 +300,15 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
+--- !u!114 &4285578127583841873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8787d0dba38d4877aad80e0c7857ef40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
