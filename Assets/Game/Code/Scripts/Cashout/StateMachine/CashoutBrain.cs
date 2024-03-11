@@ -1,4 +1,6 @@
-﻿using FiniteStateMachine;
+﻿using System;
+using System.Collections;
+using FiniteStateMachine;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
