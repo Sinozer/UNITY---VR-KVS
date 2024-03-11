@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Game.Code.Scripts.Extensions
+namespace Extensions
 {
     public static class BoxColliderExtension
     {

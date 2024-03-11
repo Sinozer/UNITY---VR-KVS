@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Game.Code.Scripts.Extensions;
+using Extensions;
 using UnityEngine;
 
 namespace Game.Code.Scripts

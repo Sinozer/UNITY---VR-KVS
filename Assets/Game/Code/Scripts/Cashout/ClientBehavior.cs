@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Extensions;
 using Game.Code.Scripts;
-using Game.Code.Scripts.Extensions;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
