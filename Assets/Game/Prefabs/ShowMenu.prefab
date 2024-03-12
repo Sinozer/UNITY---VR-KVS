@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 3320125025284409563}
   - component: {fileID: 3704695424834026840}
   - component: {fileID: 2345818198917253554}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -771,6 +771,10 @@ PrefabInstance:
     - target: {fileID: 6649476715428208663, guid: f82abdd31bfe9b749b21edfda28e5130, type: 3}
       propertyPath: m_Name
       value: ShowMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6649476715428208663, guid: f82abdd31bfe9b749b21edfda28e5130, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7522165486211447765, guid: f82abdd31bfe9b749b21edfda28e5130, type: 3}
       propertyPath: m_Renderer
