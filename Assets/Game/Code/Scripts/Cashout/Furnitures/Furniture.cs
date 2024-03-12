@@ -2,6 +2,14 @@
 
 namespace Game.Code.Scripts
 {
+    public struct ShelfItem
+    {
+        public int ID;
+        public ItemSo ItemSo;
+        public int MaxItemNumber;
+        public int ItemNumber;
+    }
+    
     public class Furniture : MonoBehaviour
     {
         public ItemSo ProductSo => _productSo;

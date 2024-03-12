@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9175231530820849809}
   - component: {fileID: 2166494059936715256}
   - component: {fileID: 8534902226154400741}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: ItemValue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 8387289389539811060}
   - component: {fileID: 6665210720950539319}
   - component: {fileID: 4215166869261960850}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,9 @@ GameObject:
   - component: {fileID: 8847214132288567257}
   - component: {fileID: 3269096907724842458}
   - component: {fileID: 3138615041585598127}
-  m_Layer: 5
+  - component: {fileID: 5956211877519518450}
+  - component: {fileID: 6629013629163432064}
+  m_Layer: 6
   m_Name: Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,8 +239,8 @@ RectTransform:
   m_GameObject: {fileID: 4532811193467244020}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.01}
-  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8387289389539811060}
   - {fileID: 6243630419957351840}
@@ -296,7 +298,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &3138615041585598127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +318,33 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4026531959
   m_RaycastTriggerInteraction: 1
+--- !u!114 &5956211877519518450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532811193467244020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1beb3cef8874b26bcb7fc79bdb65517, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemNameText: {fileID: 9076383589067681642}
+  _itemValueText: {fileID: 8534902226154400741}
+  _itemPrice: {fileID: 7178899276610492250}
+--- !u!114 &6629013629163432064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4532811193467244020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0659e9a8dbc18dc4fb0a23a54f729980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6350431352694610396
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,7 +356,7 @@ GameObject:
   - component: {fileID: 1157388467839826694}
   - component: {fileID: 7093048388740748349}
   - component: {fileID: 7178899276610492250}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: ItemPrice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +490,7 @@ GameObject:
   - component: {fileID: 6243630419957351840}
   - component: {fileID: 8367547403874999926}
   - component: {fileID: 9076383589067681642}
-  m_Layer: 5
+  m_Layer: 6
   m_Name: ItemName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
