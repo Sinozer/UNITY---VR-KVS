@@ -11,5 +11,5 @@ public class ItemRegistry : SerializedMonoBehaviour
     
     public List<ItemSo> Items => _items;
     
-    [SerializeField] private List<ItemSo> _items;
+    [SerializeField] private List<ItemSo> _items; 
 }
