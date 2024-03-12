@@ -108,9 +108,12 @@ public class CashoutBrain : StateMachine
 
     public void ConfirmPaymentPrice()
     {
-        float enteredPrice = _cashoutDisplayUI.EnteredPrice;
-        OnTotalPriceRegistered?.Invoke(enteredPrice);
-        ResetCashout();
+        if (_clientHolder.CurrentClient)
+        {
+            float enteredPrice = _cashoutDisplayUI.EnteredPrice;
+            OnTotalPriceRegistered?.Invoke(enteredPrice);
+            ResetCashout();
+        }
     }
     
     private void GoBackToWaitingState()
