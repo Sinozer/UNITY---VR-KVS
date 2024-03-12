@@ -145,3 +145,5 @@ MonoBehaviour:
   _itemRegistry: {fileID: 8634391617419544225}
   _player: {fileID: 0}
   _playerSpawnPoint: {fileID: 0}
+  _targetMoneyQuota: 1000
+  _maxSatisfactionToAdd: 15

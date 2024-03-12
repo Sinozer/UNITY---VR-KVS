@@ -39,14 +39,17 @@ public class CashoutBrain : StateMachine
     private int _globalProductIndex;
     public event Action<float> OnTotalPriceRegistered;
     
+    
     private void OnEnable()
     {
         _furnitureScanner.OnItemScanned += RegisterItemToCashout;
+        OnTotalPriceRegistered += GameManager.Instance.AddMoneyQuota;
     }
     
     private void OnDisable()
     {
         _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
+        OnTotalPriceRegistered -= GameManager.Instance.AddMoneyQuota;
     }
     
     private void Start()
@@ -112,6 +115,8 @@ public class CashoutBrain : StateMachine
     
     private void GoBackToWaitingState()
     {
+        UIManager.Instance.UpdateClientTracker(_clientHolder.CurrentClient.ClientConfig);
+        
         ChangeState(_waitingState, _clientHolder.CurrentClient, _itemDeliveryPoint);
         _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;
     }

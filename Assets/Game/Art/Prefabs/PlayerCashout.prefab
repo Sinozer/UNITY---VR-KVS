@@ -922,6 +922,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clientPrefab: {fileID: 7442561536104642748, guid: a79cb414256e06a4f90bf3e9e665ff0b, type: 3}
   _spawnRate: 120
+  _clientsConfig:
+  - {fileID: 11400000, guid: 339b18a1a227591469eb19de02dead78, type: 2}
+  - {fileID: 11400000, guid: ae2c5eee6d74e0b4aa83d13e7b5f907f, type: 2}
+  - {fileID: 11400000, guid: ab51db56f39fab84cbe2948cd7df3af4, type: 2}
+  - {fileID: 11400000, guid: 58bf71df3afb24a439526ea92b131423, type: 2}
+  - {fileID: 11400000, guid: 2e9ddd6293d7748449bb5d468dceea66, type: 2}
+  - {fileID: 11400000, guid: 05c5593554e4e4b4ea8de461d47d87b6, type: 2}
+  - {fileID: 11400000, guid: bf7c4a0dd6dcfb74fbf14180cff9606b, type: 2}
+  - {fileID: 11400000, guid: 8b3cc25e5e50dda44a62f4ef5892497e, type: 2}
+  - {fileID: 11400000, guid: a98a9cdebde6788408d2a087947f177d, type: 2}
+  - {fileID: 11400000, guid: 8bb2a151d2822d64581410c17c884611, type: 2}
+  - {fileID: 11400000, guid: 56ca07c14c2980d4e8f258b6e32b84e6, type: 2}
+  - {fileID: 11400000, guid: df271c26a712df944ba0683ea5553ab9, type: 2}
   _currentClient: {fileID: 0}
 --- !u!1 &1830101183840988783
 GameObject:
@@ -4360,7 +4373,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3020954456040475055
 Transform:
   m_ObjectHideFlags: 0

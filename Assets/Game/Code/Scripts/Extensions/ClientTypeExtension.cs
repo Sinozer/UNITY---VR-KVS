@@ -4,7 +4,7 @@ namespace Extensions
 {
     public static class ClientTypeExtension
     {
-        public static float GetTimer(this ClientType @type)
+        public static int GetTimer(this ClientType @type)
         {
             return @type switch
             {
@@ -37,6 +37,18 @@ namespace Extensions
                 ClientType.RUSH => Color.red,
                 ClientType.KAREN => Color.magenta,
                 _ => Color.blue
+            };
+        }
+        
+        public static float GetBaseSatisfaction(this ClientType @type)
+        {
+            return @type switch
+            {
+                ClientType.CHILL => 100,
+                ClientType.NORMAL => 70,
+                ClientType.RUSH => 50,
+                ClientType.KAREN => 20,
+                _ => 50
             };
         }
     }

@@ -10,9 +10,12 @@ using UnityEngine;
 public class ClientBehavior : SerializedMonoBehaviour
 {
     public Dictionary<ItemSo, int> ShoppingList => _shoppingList;
-
     public float DelayBetweenItems => _delayBetweenItems;
+    public ClientSo ClientConfig => _clientConfig;
 
+    
+    [ShowInInspector, ReadOnly] private ClientSo _clientConfig;
+    
     [Header("Items to buy")] [OdinSerialize]
     private Dictionary<ItemSo, int> _shoppingList;
 
@@ -27,7 +30,13 @@ public class ClientBehavior : SerializedMonoBehaviour
 
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
+    
 
+    public void Initialize(ClientSo client)
+    {
+        _clientConfig = client;
+    }
+    
     public IEnumerator SpawnItems(BoxCollider spawnArea)
     {
         foreach (KeyValuePair<ItemSo, int> item in _shoppingList)
@@ -74,6 +83,6 @@ public class ClientBehavior : SerializedMonoBehaviour
         }
         
         if (Random.value < _forgottenItemChance)
-            _forgottenItem = ItemRegistry.Instance.RandomItem;
+            _forgottenItem = GameManager.ItemRegistry.RandomItem;
     }
 }
