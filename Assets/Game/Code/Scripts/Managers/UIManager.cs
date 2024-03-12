@@ -6,6 +6,8 @@ public class UIManager : MonoBehaviour
         
     [SerializeField] private ProductUI _productUI;
     [SerializeField] private ClientSatisfactionUI _clientSatisfactionUI;
+    [SerializeField] private QuotaUI _quotaUI;
+    
     
     private void Awake()
     {

@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Extensions;
 using Game.Code.Scripts;
-using Game.Code.Scripts.Extensions;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -18,6 +18,12 @@ public class ClientBehavior : SerializedMonoBehaviour
 
     [SerializeField, Range(1, 15)] private int _maxDifferentItems;
     [SerializeField, Range(1, 100)] private int _maxItemsPerCategory;
+    
+    [Header("Item forgotten")] [OdinSerialize, ReadOnly]
+    private ItemSo _forgottenItem;
+    
+    [SerializeField, Range(0, 1)]
+    private float _forgottenItemChance;
 
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
@@ -66,5 +72,8 @@ public class ClientBehavior : SerializedMonoBehaviour
 
             _shoppingList.Add(randomItem, Random.Range(1, _maxItemsPerCategory));
         }
+        
+        if (Random.value < _forgottenItemChance)
+            _forgottenItem = ItemRegistry.Instance.RandomItem;
     }
 }

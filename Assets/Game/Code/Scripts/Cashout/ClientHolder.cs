@@ -6,7 +6,19 @@ using UnityEngine;
 
 public class ClientHolder : MonoBehaviour
 {
-    public ClientBehavior CurrentClient => _currentClient;
+    public ClientBehavior CurrentClient
+    {
+        get => _currentClient;
+        set
+        {
+            _currentClient = value;
+            
+            if (_currentClient == null)
+                return;
+            
+            // Get the player UI to display the forgotten item if there is one
+        }
+    }
     
     [SerializeField] private GameObject _clientPrefab;
     [SerializeField, Range(5, 120)] private float _spawnRate;
@@ -35,13 +47,13 @@ public class ClientHolder : MonoBehaviour
     
     public void OnCurrentClientFinished()
     {
-        Destroy(_currentClient.gameObject);
+        Destroy(CurrentClient.gameObject);
         
-        _currentClient = null;
+        CurrentClient = null;
         
         if (_waitingClients.Count > 0)
         {
-            _currentClient = _waitingClients.Dequeue();
+            CurrentClient = _waitingClients.Dequeue();
         }
     }
         
@@ -55,7 +67,7 @@ public class ClientHolder : MonoBehaviour
             Vector3 spawnPoint = _spawnPoint.position;
             ClientBehavior client = Instantiate(_clientPrefab, spawnPoint, Quaternion.identity).GetComponent<ClientBehavior>();
             
-            _currentClient = _waitingClients.Count == 0 ? client : _currentClient;
+            CurrentClient = _waitingClients.Count == 0 ? client : _currentClient;       // Check if there is no problem with reassigning the same current client
             _waitingClients.Enqueue(client);
             
             yield return new WaitForSeconds(_spawnRate);
