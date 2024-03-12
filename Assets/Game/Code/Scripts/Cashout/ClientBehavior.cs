@@ -23,7 +23,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     private ItemSo _forgottenItem;
     
     // [SerializeField, Range(0, 1)]
-    private float _forgottenItemChance = 1f;
+    private float _forgottenItemChance = .3f;
 
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
