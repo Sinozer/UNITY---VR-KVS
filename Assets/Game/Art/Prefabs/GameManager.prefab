@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemRegistry: {fileID: 8634391617419544225}
-  _player: {fileID: 6947604102996551011, guid: 4e660da2419d1614198b2c073ddf863d, type: 3}
+  _player: {fileID: 0}
   _playerSpawnPoint: {fileID: 0}
   _targetMoneyQuota: 1000
   _maxSatisfactionToAdd: 15

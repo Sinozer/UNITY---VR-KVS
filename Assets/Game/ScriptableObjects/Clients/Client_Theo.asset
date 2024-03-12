@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clientName: "Th\xE9o"
   _clientType: 2
-  _timer: 60
+  _timerInSeconds: 60
+  _baseSatisfaction: 50
+  _baseHumor: 1
   _delayBetweenItems: 1
   _clientColor: {r: 1, g: 0, b: 0, a: 1}

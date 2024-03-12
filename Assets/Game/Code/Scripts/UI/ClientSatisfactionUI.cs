@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Text;
 using TMPro;
 using UnityEngine;
@@ -19,18 +18,13 @@ public class ClientSatisfactionUI : MonoBehaviour
 
 
     private readonly StringBuilder _sb = new();
-    private int _clientTimer;
-    private bool _isDone;
-
-    private Coroutine _clientCoroutine;
-
     
 
     public void ShowClientInfo(ClientSo client)
     {
         _clientName.text = client.ClientName;
-        SetClientTimer(client.TimerInSeconds);
         UpdateHumor(client.BaseHumor);
+        FormatAndSetTimerText(client.TimerInSeconds);
     }
 
     private void UpdateHumor(ClientHumor humor)
@@ -44,46 +38,12 @@ public class ClientSatisfactionUI : MonoBehaviour
         };
     }
 
-    private void SetClientTimer(int clientTimer)
-    {
-        _clientTimer = clientTimer;
-        FormatAndSetTimerText();
-    }
-    
-    public void StartTimer()
-    {
-        _clientCoroutine = StartCoroutine(StartClientTimer());
-    }
-
-    public void FinishedClient()
-    {
-        _isDone = true;
-        
-        if (_clientCoroutine != null)
-        {
-            StopCoroutine(_clientCoroutine);
-            _clientCoroutine = null;
-        }
-    }
-
-    private IEnumerator StartClientTimer()
-    {
-        while (!_isDone)
-        {
-            yield return new WaitForSeconds(1);
-            
-            _clientTimer--;
-            
-            FormatAndSetTimerText();
-        }
-    }
-
-    private void FormatAndSetTimerText()
+    public void FormatAndSetTimerText(int timer)
     {
         _sb.Clear();
 
-        int minutes = Mathf.FloorToInt(_clientTimer / 60.0f);
-        int seconds = Mathf.FloorToInt(_clientTimer % 60.0f);
+        int minutes = Mathf.FloorToInt(timer / 60.0f);
+        int seconds = Mathf.FloorToInt(timer % 60.0f);
 
         _sb.Append(minutes.ToString("00"));
         _sb.Append(":");

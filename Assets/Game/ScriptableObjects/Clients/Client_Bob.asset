@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clientName: Bob
   _clientType: 0
-  _timer: 600
+  _timerInSeconds: 600
+  _baseSatisfaction: 100
+  _baseHumor: 0
   _delayBetweenItems: 5
   _clientColor: {r: 0, g: 1, b: 0, a: 1}

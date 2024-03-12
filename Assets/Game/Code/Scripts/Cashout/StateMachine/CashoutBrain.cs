@@ -123,6 +123,7 @@ public class CashoutBrain : StateMachine
     
     private void OnClientArrivedAtDeliveryPoint()
     {
+        _clientHolder.CurrentClient.OnTimerUpdated += UIManager.Instance.UpdateClientTimer;
         ChangeState(_spawningItemsState, _clientHolder.CurrentClient, _furnitureSpawnArea);
         _spawningItemsState.OnClientItemsSpawned += OnClientItemsSpawned;
     }

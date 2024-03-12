@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class UIManager : MonoBehaviour
@@ -9,7 +8,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ProductUI _productUI;
     [SerializeField] private ClientSatisfactionUI _clientSatisfactionUI;
     [SerializeField] private QuotaUI _quotaUI;
-
+    
 
     private void OnEnable()
     {
@@ -42,14 +41,10 @@ public class UIManager : MonoBehaviour
 
     public void UpdateClientTracker(ClientSo client)
     {
-        _clientSatisfactionUI.gameObject.SetActive(true);
-
+        if (!_clientSatisfactionUI.gameObject.activeSelf)
+            _clientSatisfactionUI.gameObject.SetActive(true);
+        
         _clientSatisfactionUI.ShowClientInfo(client);
-    }
-
-    public void StartClientTimer()
-    {
-        _clientSatisfactionUI.StartTimer();
     }
 
     public void UpdateProductTracker(ItemSo product)
@@ -58,6 +53,11 @@ public class UIManager : MonoBehaviour
             _productUI.gameObject.SetActive(true);
         
         _productUI.Item = product;
+    }
+
+    public void UpdateClientTimer(int timer)
+    {
+        _clientSatisfactionUI.FormatAndSetTimerText(timer);
     }
 
     public void HideProductTracker()

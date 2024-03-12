@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _clientName: Nicole
   _clientType: 1
-  _timer: 300
+  _timerInSeconds: 300
+  _baseSatisfaction: 70
+  _baseHumor: 0
   _delayBetweenItems: 3
   _clientColor: {r: 0, g: 0, b: 1, a: 1}

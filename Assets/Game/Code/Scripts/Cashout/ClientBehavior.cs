@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Extensions;
@@ -6,6 +7,7 @@ using Game.Code.Scripts;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ClientBehavior : SerializedMonoBehaviour
 {
@@ -30,15 +32,25 @@ public class ClientBehavior : SerializedMonoBehaviour
 
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
+
+    private bool _isDone;
+    private int _clientTimer;
+    private Coroutine _clientTimerCoroutine;
+
+    public event Action<int> OnTimerUpdated;
     
 
     public void Initialize(ClientSo client)
     {
         _clientConfig = client;
+        _clientTimer = _clientConfig.TimerInSeconds;
+        _isDone = false;
     }
     
     public IEnumerator SpawnItems(BoxCollider spawnArea)
     {
+        _clientTimerCoroutine = StartCoroutine(ClientTimerCoroutine());
+        
         foreach (KeyValuePair<ItemSo, int> item in _shoppingList)
         {
             for (int i = 0; i < item.Value; i++)
@@ -54,9 +66,25 @@ public class ClientBehavior : SerializedMonoBehaviour
 
         yield return null;
     }
+    
+    private IEnumerator ClientTimerCoroutine()
+    {
+        OnTimerUpdated?.Invoke(_clientTimer);
+
+        while (!_isDone)
+        {
+            yield return new WaitForSeconds(1);
+            
+            _clientTimer--;
+            
+            OnTimerUpdated?.Invoke(_clientTimer);
+        }
+    }
 
     public void PrepareToLeave(float totalScannedPrice)
     {
+        _isDone = true;
+        
         //TODO : Handle client satisfaction based on the totalScannedPrice
         float supposedTotal = _spawnedItems.Sum(item => item.ProductSo.ItemPrice);
         float satisfaction = totalScannedPrice / supposedTotal;
@@ -64,6 +92,12 @@ public class ClientBehavior : SerializedMonoBehaviour
         foreach (Furniture item in _spawnedItems)
         {
             Destroy(item.gameObject);
+        }
+
+        if (_clientTimerCoroutine != null)
+        {
+            StopCoroutine(_clientTimerCoroutine);
+            _clientTimerCoroutine = null;
         }
     }
 
