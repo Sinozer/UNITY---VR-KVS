@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ccf4101e4404905a2aa4436775a3770, type: 3}
   m_Name: Item_Soda01
   m_EditorClassIdentifier: 
+  _itemImage: {fileID: 0}
   _itemName: Fanta
   _itemPrice: 2.99
-  _prefab: {fileID: 113118, guid: 8894910119d7b8f44a034da0aac95dd5, type: 3}
+  _prefab: {fileID: 113118, guid: e9133f8328ea3894b906c75d0acd15f1, type: 3}

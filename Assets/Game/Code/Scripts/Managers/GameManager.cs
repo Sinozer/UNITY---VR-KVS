@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     [Header("Player")]
     [SerializeField] private GameObject _player;
     [SerializeField] private GameObject _playerSpawnPoint;
-    
+     
     
     
     private void Awake()
