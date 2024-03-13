@@ -1,25 +1,35 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class SwitchLights : MonoBehaviour
 {
+    [Header("Lightmaps")] 
     [SerializeField] private Texture2D[] _darkLightmapDir, _darkLightmapColor;
     [SerializeField] private Texture2D[] _brightLightmapDir, _brightLightmapColor;
 
+    [Header("Neon Materials")] 
+    [SerializeField] private Material[] _neonMaterials;
+
+    [Header("Lights")] 
     [SerializeField] private Light _flashLight;
     [SerializeField] private Light _warningLight;
-    
+    [SerializeField, Range(0, 10)] private float _warningLightIntensity = 2;
+    [SerializeField, Range(0, 10)] private float _warningLightSpeed = 2;
+
     [Button]
     public void TurnLightsOff()
     {
         if (_flashLight) _flashLight.enabled = true;
         if (_warningLight) _warningLight.enabled = true;
+
         LightmapSettings.lightmaps = _darkLightmap;
+        foreach (var m in _neonMaterials)
+        {
+            m.SetColor(EmissionColor, Color.black);
+        }
+
+        _lightsOn = false;
     }
 
     [Button]
@@ -27,10 +37,20 @@ public class SwitchLights : MonoBehaviour
     {
         if (_flashLight) _flashLight.enabled = false;
         if (_warningLight) _warningLight.enabled = false;
+
         LightmapSettings.lightmaps = _brightLightmap;
+        foreach (var m in _neonMaterials)
+        {
+            m.SetColor(EmissionColor, Color.white);
+        }
+
+        _lightsOn = true;
     }
 
     private LightmapData[] _darkLightmap, _brightLightmap;
+    private static readonly int EmissionColor = Shader.PropertyToID("_EmissionColor");
+
+    private bool _lightsOn = true;
 
     private void Start()
     {
@@ -61,5 +81,14 @@ public class SwitchLights : MonoBehaviour
         }
 
         _brightLightmap = blightmap.ToArray();
+
+        TurnLightsOn();
+    }
+
+    private void Update()
+    {
+        if (_lightsOn) return;
+
+        _warningLight.intensity = Mathf.PingPong(Time.time * _warningLightSpeed, _warningLightIntensity);
     }
 }
