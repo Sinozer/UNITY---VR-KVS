@@ -189,7 +189,7 @@ MonoBehaviour:
     - Name: _forgottenItem
       Entry: 6
       Data: 
-  _maxDifferentItems: 1
+  _maxDifferentItems: 3
   _maxItemsPerCategory: 1
   _delayBetweenItems: 0
 --- !u!1001 &5137935296468326883

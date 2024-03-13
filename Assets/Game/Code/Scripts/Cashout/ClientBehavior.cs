@@ -22,7 +22,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     [Header("Items to buy")] [OdinSerialize]
     private Dictionary<ItemSo, int> _shoppingList;
 
-    [SerializeField, Range(1, 15)] private int _maxDifferentItems;
+    [SerializeField, Range(3, 15)] private int _maxDifferentItems;
     [SerializeField, Range(1, 100)] private int _maxItemsPerCategory;
     
     [Header("Item forgotten")] [OdinSerialize, ReadOnly]

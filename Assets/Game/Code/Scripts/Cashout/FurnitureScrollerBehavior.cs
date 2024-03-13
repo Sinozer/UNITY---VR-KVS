@@ -10,7 +10,7 @@ namespace Game.Code.Scripts
         {
             if (other.gameObject.TryGetComponent(out Furniture furniture) is false) return;
             
-            if (furniture.CanBeGrabbed) return;
+            if (furniture.IsGrabbed) return;
             
             other.transform.position += Vector3.forward * (_scrollSpeed * Time.deltaTime);
         }
