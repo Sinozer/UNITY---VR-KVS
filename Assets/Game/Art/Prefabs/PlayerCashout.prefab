@@ -690,6 +690,7 @@ MonoBehaviour:
   _cashoutDisplayUI: {fileID: 6614642104970603867}
   _lastProductDisplayUI: {fileID: 7546612396318775515}
   _totalTextUI: {fileID: 8594386427738601037}
+  _onProductScanned: {fileID: 11400000, guid: 6689758e15921fd41bec2a83f5407adb, type: 2}
 --- !u!1 &1237087418587188502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2922,6 +2923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eefa06498a13884b8837e6835029bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onProductScanned: {fileID: 11400000, guid: 6689758e15921fd41bec2a83f5407adb, type: 2}
   _audioSource: {fileID: 3142517591586712194}
 --- !u!1 &5540263451423714641
 GameObject:

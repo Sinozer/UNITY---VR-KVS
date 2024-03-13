@@ -29,7 +29,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     private ItemSo _forgottenItem;
     
     // [SerializeField, Range(0, 1)]
-    private float _forgottenItemChance = .3f;
+    private float _forgottenItemChance = 1f;
 
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
@@ -120,6 +120,16 @@ public class ClientBehavior : SerializedMonoBehaviour
         }
         
         if (Random.value < _forgottenItemChance)
-            _forgottenItem = GameManager.ItemRegistry.RandomItem;
+            IsMissingItem();
+    }
+    
+    private void IsMissingItem()
+    {
+        int randomIndex = Random.Range(0, _shoppingList.Count - 1);
+        
+        _forgottenItem = _shoppingList.Keys.ElementAt(randomIndex);
+        _shoppingList.Remove(_forgottenItem);
+        
+        UIManager.Instance.ProductUI.Item = _forgottenItem;
     }
 }

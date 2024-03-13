@@ -1,13 +1,14 @@
 using System;
 using Game.Code.Scripts;
+using Game.Code.Scripts.UI;
 using UnityEngine;
 
 public class FurnitureScanner : MonoBehaviour
 {    
-    [SerializeField] private AudioSource _audioSource;
+    [Header("Events")]
+    [SerializeField] private ItemEventSO _onProductScanned;
     
-    public event Action<ItemSo> OnItemScanned;
-
+    [SerializeField] private AudioSource _audioSource;
     
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +22,8 @@ public class FurnitureScanner : MonoBehaviour
             
             Debug.Log("Product " + product.ProductSo.ItemName + " scanned");
             AudioSource.PlayClipAtPoint(_audioSource.clip, transform.position);
-            OnItemScanned?.Invoke(product.ProductSo);
+            
+            _onProductScanned.RaiseEvent(product.ProductSo);
         }
     }
 }
