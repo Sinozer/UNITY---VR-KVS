@@ -122,9 +122,9 @@ public class ClientBehavior : SerializedMonoBehaviour
         _isDone = true;
         
         float supposedTotal = _spawnedItems.Sum(item => item.ProductSo.ItemPrice);
-        float satisfaction = totalScannedPrice / supposedTotal;
+        float satisfactionGainedFromPrice = totalScannedPrice / supposedTotal;
 
-        _clientSatisfaction = satisfaction * 100;
+        _clientSatisfaction *= satisfactionGainedFromPrice;
 
         foreach (Furniture item in _spawnedItems)
         {
