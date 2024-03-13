@@ -13,9 +13,4 @@ MonoBehaviour:
   m_Name: Client_Claire
   m_EditorClassIdentifier: 
   _clientName: Claire
-  _clientType: 2
-  _timerInSeconds: 60
-  _baseSatisfaction: 50
-  _baseHumor: 1
-  _delayBetweenItems: 1
-  _clientColor: {r: 1, g: 0, b: 0, a: 1}
+  _clientConfig: {fileID: 11400000, guid: f1d3b02355aa0a84f9f041b2d2ba08f5, type: 2}

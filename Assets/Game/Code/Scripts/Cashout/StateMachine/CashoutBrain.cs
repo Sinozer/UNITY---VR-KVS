@@ -126,7 +126,7 @@ public class CashoutBrain : StateMachine
     
     private void GoBackToWaitingState()
     {
-        UIManager.Instance.UpdateClientTracker(_clientHolder.CurrentClient.ClientConfig);
+        UIManager.Instance.UpdateClientTracker(_clientHolder.CurrentClient.client);
         
         ChangeState(_waitingState, _clientHolder.CurrentClient, _itemDeliveryPoint);
         _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;

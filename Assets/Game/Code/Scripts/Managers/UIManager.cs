@@ -76,6 +76,11 @@ public class UIManager : MonoBehaviour
         _clientSatisfactionUI.FormatAndSetTimerText(timer);
     }
 
+    public void UpdateClientHumor(ClientHumor clientHumor)
+    {
+        _clientSatisfactionUI.UpdateHumor(clientHumor);
+    }
+
     public void HideProductTracker()
     {
         _productUI.gameObject.SetActive(false);

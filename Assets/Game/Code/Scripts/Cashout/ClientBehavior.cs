@@ -12,18 +12,16 @@ using Random = UnityEngine.Random;
 public class ClientBehavior : SerializedMonoBehaviour
 {
     public Dictionary<ItemSo, int> ShoppingList => _shoppingList;
-    public float DelayBetweenItems => _delayBetweenItems;
     public float ClientSatisfaction => _clientSatisfaction;
-    public ClientSo ClientConfig => _clientConfig;
+    public ClientSo client => _client;
+    public ClientHumor ClientHumor => _clientHumor;
 
     
-    [ShowInInspector, ReadOnly] private ClientSo _clientConfig;
+    [ShowInInspector, ReadOnly] private ClientSo _client;
     
     [Header("Items to buy")] [OdinSerialize]
     private Dictionary<ItemSo, int> _shoppingList;
-
-    [SerializeField, Range(3, 15)] private int _maxDifferentItems;
-    [SerializeField, Range(1, 100)] private int _maxItemsPerCategory;
+    
     
     [Header("Item forgotten")] [OdinSerialize, ReadOnly]
     private ItemSo _forgottenItem;
@@ -31,22 +29,45 @@ public class ClientBehavior : SerializedMonoBehaviour
     // [SerializeField, Range(0, 1)]
     private float _forgottenItemChance = 1f;
 
-    [Header("Client behavior")] [SerializeField, Range(0, 10)]
-    private float _delayBetweenItems;
-
-    private float _clientSatisfaction;
+    [ShowInInspector, ReadOnly] private ClientHumor _clientHumor;
+    [ShowInInspector, ReadOnly] private float _clientSatisfaction;
+    [ShowInInspector, ReadOnly] private int _clientTimer;
+    private float _clientSatisfactionStep;
     private bool _isDone;
-    private int _clientTimer;
     private Coroutine _clientTimerCoroutine;
+    private List<Furniture> _spawnedItems;
 
-    public event Action<int> OnTimerUpdated;
     
+    public event Action<int> OnTimerUpdated;
+
 
     public void Initialize(ClientSo client)
     {
-        _clientConfig = client;
-        _clientTimer = _clientConfig.TimerInSeconds;
+        _client = client;
+        
+        _clientTimer = _client.ClientConfig.TimerInSeconds;
+        _clientSatisfaction = _client.ClientConfig.BaseSatisfaction;
+        _clientHumor = _client.ClientConfig.BaseHumor;
+        _clientSatisfactionStep = (_client.ClientConfig.BaseSatisfaction / _client.ClientConfig.TimerInSeconds) * 0.5f;
+        
         _isDone = false;
+    }
+    
+    private void Start()
+    {
+        _shoppingList = new Dictionary<ItemSo, int>();
+        _spawnedItems = new List<Furniture>();
+
+        for (int i = 0; i < _client.ClientConfig.MaxDifferentItems; i++)
+        {
+            ItemSo randomItem = GameManager.ItemRegistry.RandomItem;
+            if (_shoppingList.ContainsKey(randomItem)) return;
+
+            _shoppingList.Add(randomItem, Random.Range(1, _client.ClientConfig.MaxNumberOfSameItems));
+        }
+        
+        if (Random.value < _forgottenItemChance)
+            IsMissingItem();
     }
     
     public IEnumerator SpawnItems(BoxCollider spawnArea)
@@ -62,7 +83,7 @@ public class ClientBehavior : SerializedMonoBehaviour
                     .GetComponent<Furniture>();
                 furniture.Initialize(item.Key);
                 _spawnedItems.Add(furniture);
-                yield return new WaitForSeconds(_delayBetweenItems);
+                yield return new WaitForSeconds(_client.ClientConfig.SpawnDelayBetweenItems);
             }
         }
 
@@ -77,10 +98,23 @@ public class ClientBehavior : SerializedMonoBehaviour
         {
             yield return new WaitForSeconds(1);
             
-            _clientTimer--;
+            UpdateClient();
             
             OnTimerUpdated?.Invoke(_clientTimer);
         }
+    }
+
+    private void UpdateClient()
+    {
+        _clientTimer--;
+        _clientSatisfaction -= _clientSatisfactionStep;
+        UpdateClientHumor();
+    }
+
+    private void UpdateClientHumor()
+    {
+        _clientHumor = _client.ClientConfig.DetermineHumor(_clientSatisfaction);
+        UIManager.Instance.UpdateClientHumor(_clientHumor);
     }
 
     public void PrepareToLeave(float totalScannedPrice)
@@ -88,9 +122,9 @@ public class ClientBehavior : SerializedMonoBehaviour
         _isDone = true;
         
         float supposedTotal = _spawnedItems.Sum(item => item.ProductSo.ItemPrice);
-        float satisfaction = totalScannedPrice / supposedTotal;
+        float satisfactionGainedFromPrice = totalScannedPrice / supposedTotal;
 
-        _clientSatisfaction = satisfaction * 100;
+        _clientSatisfaction *= satisfactionGainedFromPrice;
 
         foreach (Furniture item in _spawnedItems)
         {
@@ -102,25 +136,6 @@ public class ClientBehavior : SerializedMonoBehaviour
             StopCoroutine(_clientTimerCoroutine);
             _clientTimerCoroutine = null;
         }
-    }
-
-    private List<Furniture> _spawnedItems;
-
-    private void Start()
-    {
-        _shoppingList = new Dictionary<ItemSo, int>();
-        _spawnedItems = new List<Furniture>();
-
-        for (int i = 0; i < _maxDifferentItems; i++)
-        {
-            ItemSo randomItem = GameManager.ItemRegistry.RandomItem;
-            if (_shoppingList.ContainsKey(randomItem)) return;
-
-            _shoppingList.Add(randomItem, Random.Range(1, _maxItemsPerCategory));
-        }
-        
-        if (Random.value < _forgottenItemChance)
-            IsMissingItem();
     }
     
     private void IsMissingItem()

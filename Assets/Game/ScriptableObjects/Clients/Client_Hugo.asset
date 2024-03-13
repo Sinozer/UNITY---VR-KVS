@@ -13,7 +13,4 @@ MonoBehaviour:
   m_Name: Client_Hugo
   m_EditorClassIdentifier: 
   _clientName: Hugo
-  _clientType: 0
-  _timer: 600
-  _delayBetweenItems: 5
-  _clientColor: {r: 0, g: 1, b: 0, a: 1}
+  _clientConfig: {fileID: 11400000, guid: f1d3b02355aa0a84f9f041b2d2ba08f5, type: 2}
