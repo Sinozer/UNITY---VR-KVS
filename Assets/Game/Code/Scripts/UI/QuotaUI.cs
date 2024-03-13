@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 
 
@@ -9,6 +10,7 @@ public class QuotaUI : MonoBehaviour
 
     public void UpdateMoneyQuota(float currentQuota, float maxQuota)
     {
+        Debug.Log("Updated money quota");
         _moneyQuota.UpdateSliderQuota(currentQuota, maxQuota);
     }
 
