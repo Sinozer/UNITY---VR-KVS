@@ -41,7 +41,7 @@ public class TextAndPriceUI : MonoBehaviour
 
     public void SetPrice(float price)
     {
-        _productPriceText.text = "$ " + price;
+        _productPriceText.text = "$ " + price.ToString("0.00");
     }
 
     public void ResetAll()

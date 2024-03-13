@@ -60,16 +60,29 @@ public class GameManager : MonoBehaviour
         StartLightsSwitchTimer();
     }
 
-    public void AddMoneyQuota(float moneyToAdd)
+    public void UpdateQuota(float moneyToAdd, float clientSatisfaction)
+    {
+        AddMoneyQuota(moneyToAdd);
+        UpdateClientSatisfaction(clientSatisfaction);
+        
+        UIManager.Instance.HideClientTracker();
+    }
+
+    private void AddMoneyQuota(float moneyToAdd)
     {
         _currentMoneyQuota += moneyToAdd;
         UpdateMoneyQuotaUI();
     }
 
-    public void UpdateClientSatisfaction(float clientSatisfaction)
+    private void UpdateClientSatisfaction(float clientSatisfaction)
     {
+        clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, 100);
+        
         float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - 50) / 50, -1, 1);
         _currentClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
+        
+        Debug.Log(_currentClientSatisfaction);
+
         UpdateClientSatisfactionUI();
     }
     

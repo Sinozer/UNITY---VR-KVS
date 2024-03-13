@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -8,22 +10,23 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ProductUI _productUI;
     [SerializeField] private ClientSatisfactionUI _clientSatisfactionUI;
     [SerializeField] private QuotaUI _quotaUI;
+
+    [Header("Inputs")] 
+    [SerializeField] private InputActionReference _showUIInput;
+
+    private bool _isUIShown = true;
     
-
-    private void OnEnable()
-    {
-        GameManager.Instance.OnMoneyQuotaUpdated += _quotaUI.UpdateMoneyQuota;
-        GameManager.Instance.OnClientSatisfactionUpdated += _quotaUI.UpdateClientQuota;
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.OnMoneyQuotaUpdated -= _quotaUI.UpdateMoneyQuota;
-        GameManager.Instance.OnClientSatisfactionUpdated -= _quotaUI.UpdateClientQuota;
-    }
 
     private void Awake()
     {
+        _showUIInput.action.started += ToggleUIAction;
+        
+        if (GameManager.Instance)
+        {
+            GameManager.Instance.OnMoneyQuotaUpdated += _quotaUI.UpdateMoneyQuota;
+            GameManager.Instance.OnClientSatisfactionUpdated += _quotaUI.UpdateClientQuota;
+        }
+
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -34,8 +37,21 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        ToggleUI();
+        
         HideProductTracker();
         HideClientTracker();
+    }
+    
+    private void ToggleUIAction(InputAction.CallbackContext obj)
+    {
+        ToggleUI();
+    }
+
+    private void ToggleUI()
+    {
+        _isUIShown = !_isUIShown;
+        gameObject.SetActive(_isUIShown);
     }
 
     public void UpdateClientTracker(ClientSo client)
@@ -67,5 +83,16 @@ public class UIManager : MonoBehaviour
     public void HideClientTracker()
     {
         _clientSatisfactionUI.gameObject.SetActive(false);
+    }
+    
+    private void OnDestroy()
+    {
+        _showUIInput.action.started -= ToggleUIAction;
+        
+        if (GameManager.Instance)
+        {
+            GameManager.Instance.OnMoneyQuotaUpdated -= _quotaUI.UpdateMoneyQuota;
+            GameManager.Instance.OnClientSatisfactionUpdated -= _quotaUI.UpdateClientQuota;
+        }
     }
 }

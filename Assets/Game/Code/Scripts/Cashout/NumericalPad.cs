@@ -61,7 +61,7 @@ public class NumericalPad : MonoBehaviour
     {
         if (_isDecimalAdded) return;
         
-        _stringBuilder.Append(".");
+        _stringBuilder.Append(",");
         _isDecimalAdded = true;
         RefreshTextUI();
     }
