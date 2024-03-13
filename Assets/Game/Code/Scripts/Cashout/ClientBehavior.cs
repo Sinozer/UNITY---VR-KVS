@@ -13,6 +13,7 @@ public class ClientBehavior : SerializedMonoBehaviour
 {
     public Dictionary<ItemSo, int> ShoppingList => _shoppingList;
     public float DelayBetweenItems => _delayBetweenItems;
+    public float ClientSatisfaction => _clientSatisfaction;
     public ClientSo ClientConfig => _clientConfig;
 
     
@@ -33,6 +34,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     [Header("Client behavior")] [SerializeField, Range(0, 10)]
     private float _delayBetweenItems;
 
+    private float _clientSatisfaction;
     private bool _isDone;
     private int _clientTimer;
     private Coroutine _clientTimerCoroutine;
@@ -85,9 +87,10 @@ public class ClientBehavior : SerializedMonoBehaviour
     {
         _isDone = true;
         
-        //TODO : Handle client satisfaction based on the totalScannedPrice
         float supposedTotal = _spawnedItems.Sum(item => item.ProductSo.ItemPrice);
         float satisfaction = totalScannedPrice / supposedTotal;
+
+        _clientSatisfaction = satisfaction * 100;
 
         foreach (Furniture item in _spawnedItems)
         {

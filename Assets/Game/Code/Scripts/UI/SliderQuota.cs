@@ -9,7 +9,10 @@ public class SliderQuota : MonoBehaviour
 {
     [SerializeField] private Slider _moneyQuota;
     [SerializeField] private Image _fillImage;
+    
+    [Header("Text")]
     [SerializeField] private TextMeshProUGUI _quotaPercentage;
+    [SerializeField] private bool _isPercentageText;
     
     [Header("Colors")] 
     [SerializeField] private Color _reachedColor;
@@ -24,8 +27,16 @@ public class SliderQuota : MonoBehaviour
         _fillImage.color = Color.Lerp(_unReachedColor, _reachedColor, clampedQuota);
 
         _moneyQuota.value = clampedQuota;
-
-        quota *= 100;
-        _quotaPercentage.text = quota.ToString(CultureInfo.InvariantCulture);
+        
+        if (_isPercentageText)
+        {
+            quota *= 100;
+            _quotaPercentage.text = quota.ToString(CultureInfo.InvariantCulture);
+        }
+        else
+        {
+            Debug.Log(currentQuota);
+            _quotaPercentage.text = currentQuota + "/" + quotaToReach;
+        }
     }
 }

@@ -617,7 +617,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.959, y: 0, z: -4.859}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.2033, y: 1.2033, z: 1.2033}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6517535906489053544}
@@ -1686,8 +1686,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1524329420050721536}
   m_HandleRect: {fileID: 3956374118258787368}
   m_Direction: 2
-  m_Value: 1.0000002
-  m_Size: 0.41318887
+  m_Value: 1
+  m_Size: 0.41318896
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2823,7 +2823,7 @@ AudioSource:
   m_GameObject: {fileID: 5510834617798495593}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9125822485442370128, guid: c62c75b50518b72419c547a48c7edf72, type: 2}
   m_audioClip: {fileID: 8300000, guid: 48251045884849c46ad94eb67663bb96, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -3137,6 +3137,7 @@ MonoBehaviour:
   _delayBeforeWalkingToPayment: 2
   _clientSpeed: 1
   _paymentWaypointAcceptanceRadius: 0.8
+  _clientSoundSO: {fileID: 11400000, guid: 38e4e30930ed7c646a2c5e01c1a0c393, type: 2}
 --- !u!1 &5781333841456760465
 GameObject:
   m_ObjectHideFlags: 0
@@ -5592,6 +5593,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5957048495967165042}
     m_Modifications:
+    - target: {fileID: 1568835888838292402, guid: fad94b617f0540568dbf4c9c4011248c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.202
+      objectReference: {fileID: 0}
     - target: {fileID: 1568835888838292402, guid: fad94b617f0540568dbf4c9c4011248c, type: 3}
       propertyPath: m_LocalPosition.y
       value: 2.233

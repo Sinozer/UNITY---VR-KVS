@@ -20,7 +20,7 @@ public class FurnitureScanner : MonoBehaviour
             }
             
             Debug.Log("Product " + product.ProductSo.ItemName + " scanned");
-            _audioSource.Play();
+            AudioSource.PlayClipAtPoint(_audioSource.clip, transform.position);
             OnItemScanned?.Invoke(product.ProductSo);
         }
     }

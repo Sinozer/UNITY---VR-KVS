@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     [Header("Quota")]
     [SerializeField] private float _targetMoneyQuota = 1000;
     [SerializeField] private float _maxSatisfactionToAdd = 15;
+    
+    [Header("Lights")]
+    [SerializeField] private SwitchLights _switchLights;
+    [SerializeField, Range(10, 600)] private float _minTimerBeforeSwitch = 60;
+    [SerializeField, Range(10, 600)] private float _maxTimerBeforeSwitch = 120;
 
     
     private float _currentMoneyQuota;
@@ -51,19 +56,40 @@ public class GameManager : MonoBehaviour
         
         UpdateMoneyQuotaUI();
         UpdateClientSatisfactionUI();
+        
+        StartLightsSwitchTimer();
     }
 
-    public void AddMoneyQuota(float moneyToAdd)
+    public void UpdateQuota(float moneyToAdd, float clientSatisfaction)
+    {
+        AddMoneyQuota(moneyToAdd);
+        UpdateClientSatisfaction(clientSatisfaction);
+        
+        UIManager.Instance.HideClientTracker();
+    }
+
+    private void AddMoneyQuota(float moneyToAdd)
     {
         _currentMoneyQuota += moneyToAdd;
         UpdateMoneyQuotaUI();
     }
 
-    public void UpdateClientSatisfaction(float clientSatisfaction)
+    private void UpdateClientSatisfaction(float clientSatisfaction)
     {
+        clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, 100);
+        
         float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - 50) / 50, -1, 1);
         _currentClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
+        
+        Debug.Log(_currentClientSatisfaction);
+
         UpdateClientSatisfactionUI();
+    }
+    
+    public void TurnLightsOn()
+    {
+        _switchLights.TurnLightsOn();
+        StartLightsSwitchTimer();
     }
 
     private void UpdateMoneyQuotaUI()
@@ -74,5 +100,13 @@ public class GameManager : MonoBehaviour
     private void UpdateClientSatisfactionUI()
     {
         OnClientSatisfactionUpdated?.Invoke(_currentClientSatisfaction, MAX_CLIENT_SATISFACTION);
+    }
+
+    private void LightsOff() => _switchLights.TurnLightsOff();
+    
+    private void StartLightsSwitchTimer()
+    {
+        float timer = UnityEngine.Random.Range(_minTimerBeforeSwitch, _maxTimerBeforeSwitch);
+        Invoke(nameof(LightsOff), timer);
     }
 }
