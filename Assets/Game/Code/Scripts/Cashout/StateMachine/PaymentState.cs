@@ -68,7 +68,7 @@ public class PaymentState : BaseState
     private IEnumerator WalkTo(Vector3 to)
     {
         float step = _clientSpeed * Time.deltaTime;
-        while (Vector3.Distance(_currentClient.transform.position, to) > _paymentWaypointAcceptanceRadius)
+        while (_currentClient != null && Vector3.Distance(_currentClient.transform.position, to) > _paymentWaypointAcceptanceRadius)
         {
             _currentClient.transform.position = Vector3.MoveTowards(_currentClient.transform.position, to, step);
             yield return null;

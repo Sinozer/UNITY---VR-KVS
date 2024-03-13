@@ -37,19 +37,18 @@ public class CashoutBrain : StateMachine
     [SerializeField] private TextAndPriceUI _totalTextUI;
 
     private int _globalProductIndex;
+
     public event Action<float> OnTotalPriceRegistered;
     
     
     private void OnEnable()
     {
         _furnitureScanner.OnItemScanned += RegisterItemToCashout;
-        OnTotalPriceRegistered += GameManager.Instance.AddMoneyQuota;
     }
     
     private void OnDisable()
     {
         _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
-        OnTotalPriceRegistered -= GameManager.Instance.AddMoneyQuota;
     }
     
     private void Start()
@@ -112,6 +111,9 @@ public class CashoutBrain : StateMachine
         {
             float enteredPrice = _cashoutDisplayUI.EnteredPrice;
             OnTotalPriceRegistered?.Invoke(enteredPrice);
+            
+            GameManager.Instance.UpdateQuota(enteredPrice, _clientHolder.CurrentClient.ClientSatisfaction);
+            
             ResetCashout();
         }
     }
@@ -168,7 +170,6 @@ public class CashoutBrain : StateMachine
         {
             float rotationAngle = Mathf.Lerp(angleA, angleB, _doorCurve.Evaluate(time));
             _door.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
-            Debug.Log("Door rotation: " + rotationAngle);
 
             time += Time.deltaTime;
             yield return null;
