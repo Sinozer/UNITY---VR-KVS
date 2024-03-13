@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d70757f7a3d43dc824e60a2242f5253, type: 3}
-  m_Name: Client_Bob
+  m_Script: {fileID: 11500000, guid: 2a56d59f2eb23474886149ef377e698a, type: 3}
+  m_Name: ClientConfig_Karen
   m_EditorClassIdentifier: 
-  _clientName: Bob
-  _clientConfig: {fileID: 11400000, guid: 66f992e18306393439aee3a5c8c91ee0, type: 2}
+  _clientType: 3
+  _timerInSeconds: 10
+  _baseSatisfaction: 20
+  _clientColor: {r: 1, g: 0, b: 0, a: 1}
+  _spawnDelayBetweenItems: 0.7
+  _maxDifferentItems: 10
+  _maxNumberOfSameItems: 1

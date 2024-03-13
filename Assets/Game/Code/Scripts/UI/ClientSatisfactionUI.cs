@@ -23,11 +23,11 @@ public class ClientSatisfactionUI : MonoBehaviour
     public void ShowClientInfo(ClientSo client)
     {
         _clientName.text = client.ClientName;
-        UpdateHumor(client.BaseHumor);
-        FormatAndSetTimerText(client.TimerInSeconds);
+        UpdateHumor(client.ClientConfig.BaseHumor);
+        FormatAndSetTimerText(client.ClientConfig.TimerInSeconds);
     }
 
-    private void UpdateHumor(ClientHumor humor)
+    public void UpdateHumor(ClientHumor humor)
     {
         _satisfactionImage.sprite = humor switch
         {

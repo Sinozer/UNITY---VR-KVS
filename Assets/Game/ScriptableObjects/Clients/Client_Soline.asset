@@ -13,9 +13,4 @@ MonoBehaviour:
   m_Name: Client_Soline
   m_EditorClassIdentifier: 
   _clientName: Soline
-  _clientType: 1
-  _timerInSeconds: 300
-  _baseSatisfaction: 70
-  _baseHumor: 0
-  _delayBetweenItems: 3
-  _clientColor: {r: 0, g: 0, b: 1, a: 1}
+  _clientConfig: {fileID: 11400000, guid: 644f4aa0a26424f4299caed1a544ca76, type: 2}
