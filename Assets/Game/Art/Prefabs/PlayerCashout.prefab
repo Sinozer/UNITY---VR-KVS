@@ -2823,7 +2823,7 @@ AudioSource:
   m_GameObject: {fileID: 5510834617798495593}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9125822485442370128, guid: c62c75b50518b72419c547a48c7edf72, type: 2}
   m_audioClip: {fileID: 8300000, guid: 48251045884849c46ad94eb67663bb96, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -3137,6 +3137,7 @@ MonoBehaviour:
   _delayBeforeWalkingToPayment: 2
   _clientSpeed: 1
   _paymentWaypointAcceptanceRadius: 0.8
+  _clientSoundSO: {fileID: 11400000, guid: 38e4e30930ed7c646a2c5e01c1a0c393, type: 2}
 --- !u!1 &5781333841456760465
 GameObject:
   m_ObjectHideFlags: 0

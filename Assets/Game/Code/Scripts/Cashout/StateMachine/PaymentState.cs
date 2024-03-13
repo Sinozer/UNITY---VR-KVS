@@ -17,6 +17,8 @@ public class PaymentState : BaseState
     private float _clientSpeed;
 
     [SerializeField, Range(0, 1)] private float _paymentWaypointAcceptanceRadius;
+    
+    [SerializeField] private ClientSoundSO _clientSoundSO;
 
     public override void Enter(StateMachine stateMachine, params object[] args)
     {
@@ -24,13 +26,19 @@ public class PaymentState : BaseState
         _currentClient = args[0] as ClientBehavior;
         _paymentPoint = args[1] as Transform;
         _leavePoint = args[2] as Transform;
-
+        
         StartCoroutine(ClientCoroutine());
 
         return;
 
         IEnumerator ClientCoroutine()
         {
+            if (_clientSoundSO != null)
+            {
+                var indx = UnityEngine.Random.Range(0, _clientSoundSO.AudioClipList.Count);
+                var random = _clientSoundSO.AudioClipList[indx];
+                _currentClient.gameObject.GetComponentInChildren<AudioSource>().PlayOneShot(random);
+            }
             var brain = stateMachine as CashoutBrain;
             brain!.OnTotalPriceRegistered += OnTotalPriceRegistered;
 
