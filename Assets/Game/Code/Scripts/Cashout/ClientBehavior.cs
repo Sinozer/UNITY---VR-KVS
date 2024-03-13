@@ -27,7 +27,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     private ItemSo _forgottenItem;
     
     // [SerializeField, Range(0, 1)]
-    private float _forgottenItemChance = .3f;
+    private float _forgottenItemChance = 1f;
 
     [ShowInInspector, ReadOnly] private ClientHumor _clientHumor;
     [ShowInInspector, ReadOnly] private float _clientSatisfaction;
@@ -35,6 +35,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     private float _clientSatisfactionStep;
     private bool _isDone;
     private Coroutine _clientTimerCoroutine;
+    private List<Furniture> _spawnedItems;
 
     
     public event Action<int> OnTimerUpdated;
@@ -66,7 +67,7 @@ public class ClientBehavior : SerializedMonoBehaviour
         }
         
         if (Random.value < _forgottenItemChance)
-            _forgottenItem = GameManager.ItemRegistry.RandomItem;
+            IsMissingItem();
     }
     
     public IEnumerator SpawnItems(BoxCollider spawnArea)
@@ -136,7 +137,14 @@ public class ClientBehavior : SerializedMonoBehaviour
             _clientTimerCoroutine = null;
         }
     }
-
-    private List<Furniture> _spawnedItems;
-
+    
+    private void IsMissingItem()
+    {
+        int randomIndex = Random.Range(0, _shoppingList.Count - 1);
+        
+        _forgottenItem = _shoppingList.Keys.ElementAt(randomIndex);
+        _shoppingList.Remove(_forgottenItem);
+        
+        UIManager.Instance.ProductUI.Item = _forgottenItem;
+    }
 }

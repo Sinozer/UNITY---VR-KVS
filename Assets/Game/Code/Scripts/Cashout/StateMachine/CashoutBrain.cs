@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using FiniteStateMachine;
+using Game.Code.Scripts.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -35,6 +36,9 @@ public class CashoutBrain : StateMachine
     [SerializeField] private CashoutDisplayUI _cashoutDisplayUI;
     [SerializeField] private TextAndPriceUI _lastProductDisplayUI;
     [SerializeField] private TextAndPriceUI _totalTextUI;
+    
+    [Header("Events")]
+    [SerializeField] private ItemEventSO _onProductScanned;
 
     private int _globalProductIndex;
 
@@ -43,12 +47,14 @@ public class CashoutBrain : StateMachine
     
     private void OnEnable()
     {
-        _furnitureScanner.OnItemScanned += RegisterItemToCashout;
+        // _furnitureScanner.OnItemScanned += RegisterItemToCashout;
+        _onProductScanned.OnEvent += RegisterItemToCashout;
     }
     
     private void OnDisable()
     {
-        _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
+        // _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
+        _onProductScanned.OnEvent -= RegisterItemToCashout;
     }
     
     private void Start()

@@ -690,6 +690,7 @@ MonoBehaviour:
   _cashoutDisplayUI: {fileID: 6614642104970603867}
   _lastProductDisplayUI: {fileID: 7546612396318775515}
   _totalTextUI: {fileID: 8594386427738601037}
+  _onProductScanned: {fileID: 11400000, guid: 6689758e15921fd41bec2a83f5407adb, type: 2}
 --- !u!1 &1237087418587188502
 GameObject:
   m_ObjectHideFlags: 0
@@ -2823,7 +2824,7 @@ AudioSource:
   m_GameObject: {fileID: 5510834617798495593}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -9125822485442370128, guid: c62c75b50518b72419c547a48c7edf72, type: 2}
   m_audioClip: {fileID: 8300000, guid: 48251045884849c46ad94eb67663bb96, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -2922,6 +2923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4eefa06498a13884b8837e6835029bf8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _onProductScanned: {fileID: 11400000, guid: 6689758e15921fd41bec2a83f5407adb, type: 2}
   _audioSource: {fileID: 3142517591586712194}
 --- !u!1 &5540263451423714641
 GameObject:
@@ -3137,6 +3139,7 @@ MonoBehaviour:
   _delayBeforeWalkingToPayment: 2
   _clientSpeed: 1
   _paymentWaypointAcceptanceRadius: 0.8
+  _clientSoundSO: {fileID: 11400000, guid: 38e4e30930ed7c646a2c5e01c1a0c393, type: 2}
 --- !u!1 &5781333841456760465
 GameObject:
   m_ObjectHideFlags: 0

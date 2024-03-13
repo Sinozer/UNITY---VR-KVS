@@ -17,6 +17,11 @@ public class GameManager : MonoBehaviour
     [Header("Quota")]
     [SerializeField] private float _targetMoneyQuota = 1000;
     [SerializeField] private float _maxSatisfactionToAdd = 15;
+    
+    [Header("Lights")]
+    [SerializeField] private SwitchLights _switchLights;
+    [SerializeField, Range(10, 600)] private float _minTimerBeforeSwitch = 60;
+    [SerializeField, Range(10, 600)] private float _maxTimerBeforeSwitch = 120;
 
     
     private float _currentMoneyQuota;
@@ -51,6 +56,8 @@ public class GameManager : MonoBehaviour
         
         UpdateMoneyQuotaUI();
         UpdateClientSatisfactionUI();
+        
+        StartLightsSwitchTimer();
     }
 
     public void UpdateQuota(float moneyToAdd, float clientSatisfaction)
@@ -78,6 +85,12 @@ public class GameManager : MonoBehaviour
 
         UpdateClientSatisfactionUI();
     }
+    
+    public void TurnLightsOn()
+    {
+        _switchLights.TurnLightsOn();
+        StartLightsSwitchTimer();
+    }
 
     private void UpdateMoneyQuotaUI()
     {
@@ -87,5 +100,13 @@ public class GameManager : MonoBehaviour
     private void UpdateClientSatisfactionUI()
     {
         OnClientSatisfactionUpdated?.Invoke(_currentClientSatisfaction, MAX_CLIENT_SATISFACTION);
+    }
+
+    private void LightsOff() => _switchLights.TurnLightsOff();
+    
+    private void StartLightsSwitchTimer()
+    {
+        float timer = UnityEngine.Random.Range(_minTimerBeforeSwitch, _maxTimerBeforeSwitch);
+        Invoke(nameof(LightsOff), timer);
     }
 }

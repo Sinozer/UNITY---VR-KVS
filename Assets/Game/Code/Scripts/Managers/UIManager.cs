@@ -6,6 +6,7 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
     
+    public ProductUI ProductUI => _productUI;
     
     [SerializeField] private ProductUI _productUI;
     [SerializeField] private ClientSatisfactionUI _clientSatisfactionUI;

@@ -15,7 +15,7 @@ public class ClientSatisfactionUI : MonoBehaviour
     [SerializeField] private Sprite _happyFace;
     [SerializeField] private Sprite _indifferentFace;
     [SerializeField] private Sprite _angryFace;
-
+ 
 
     private readonly StringBuilder _sb = new();
     
