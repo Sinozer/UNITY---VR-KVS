@@ -8,7 +8,7 @@ public class ProductUI : MonoBehaviour
     [Header("Events")]
     [SerializeField] private ItemEventSO _onProductScanned;
     
-    [SerializeField] private UnityEngine.UI.Image _productImageHolder;
+    [SerializeField] private MeshFilter _productMesh;
     [SerializeField] private TMPro.TextMeshProUGUI _productNameHolder;
 
     [SerializeField] private ItemSo _item;
@@ -25,8 +25,7 @@ public class ProductUI : MonoBehaviour
             }
             
             _item = value;
-            // Get the image from the prefab model
-            _productImageHolder.sprite = _item.ItemImage;
+            _productMesh.sharedMesh = _item.Prefab.GetComponent<MeshFilter>().sharedMesh;
             _productNameHolder.text = _item.ItemName;
             
             gameObject.SetActive(true);
@@ -40,7 +39,7 @@ public class ProductUI : MonoBehaviour
         if (_item == null)
             return;
         
-        _productImageHolder.sprite = _item.ItemImage;
+        _productMesh.sharedMesh = _item.Prefab.GetComponent<MeshFilter>().sharedMesh;
         _productNameHolder.text = _item.ItemName;
     }
     #endif
@@ -61,8 +60,8 @@ public class ProductUI : MonoBehaviour
         {
             _item = null;
             gameObject.SetActive(false);
-            _productImageHolder.sprite = null;
-            _productNameHolder.text = "HASSOUL TUTTO BENE";
+            _productMesh.sharedMesh = null;
+            _productNameHolder.text = "None";
         }
     }
 }

@@ -202,7 +202,7 @@ public class ClientBehavior : SerializedMonoBehaviour
         
         _forgottenItem = _shoppingList.Keys.ElementAt(randomIndex);
         _shoppingList.Remove(_forgottenItem);
-        
-        UIManager.Instance.ProductUI.Item = _forgottenItem;
+
+        UIManager.Instance.UpdateProductTracker(_forgottenItem);
     }
 }
