@@ -6,8 +6,13 @@ public class SwitchLights : MonoBehaviour
 {
 	[Header("Lightmaps")]
 	[SerializeField] private Texture2D[] _darkLightmapDir, _darkLightmapColor;
-
 	[SerializeField] private Texture2D[] _brightLightmapDir, _brightLightmapColor;
+	
+	[Header("Skyboxes")]
+	[SerializeField] private Material _daySkybox;
+	[SerializeField, Range(0,3)] private float _daySkyboxIntensity = 1;
+	[SerializeField] private Material _nightSkybox;
+	[SerializeField, Range(0,3)] private float _nightSkyboxIntensity = 0.1f;
 
 	[Header("Neon Materials")]
 	[SerializeField] private Material[] _neonMaterials;
@@ -24,7 +29,10 @@ public class SwitchLights : MonoBehaviour
 	{
 		if (_flashLight) _flashLight.enabled = true;
 		if (_warningLight) _warningLight.enabled = true;
-
+		
+		RenderSettings.skybox = _nightSkybox;
+		RenderSettings.ambientIntensity = _nightSkyboxIntensity;
+		
 		LightmapSettings.lightmaps = _darkLightmap;
 		foreach (var m in _neonMaterials)
 		{
@@ -40,6 +48,9 @@ public class SwitchLights : MonoBehaviour
 		if (_flashLight) _flashLight.enabled = false;
 		if (_warningLight) _warningLight.enabled = false;
 
+		RenderSettings.skybox = _daySkybox;
+		RenderSettings.ambientIntensity = _daySkyboxIntensity;
+		
 		LightmapSettings.lightmaps = _brightLightmap;
 		foreach (var m in _neonMaterials)
 		{
