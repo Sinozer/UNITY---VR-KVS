@@ -82,4 +82,9 @@ public class NumericalPad : MonoBehaviour
             return 0;
         }
     }
+    
+    public string GetEnteredPriceAsString()
+    {
+        return _stringBuilder.ToString();
+    }
 }
