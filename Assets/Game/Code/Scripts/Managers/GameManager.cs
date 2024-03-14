@@ -68,14 +68,11 @@ public class GameManager : MonoBehaviour
 
     private void UpdateClientSatisfaction(float baseSatisfaction, float clientSatisfaction)
     {
-        Debug.Log(clientSatisfaction);
         clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, MAX_CLIENT_SATISFACTION);
         
         float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - baseSatisfaction * 0.5f) / baseSatisfaction * 0.5f, -1, 1);
         _globalClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
         
-        Debug.Log(_globalClientSatisfaction);
-
         UpdateClientSatisfactionUI();
     }
 

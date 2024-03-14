@@ -184,10 +184,6 @@ public class ClientBehavior : SerializedMonoBehaviour
         }
 
         float satisfactionLossFromMissingItem = 1 - numberOfMissingItem * _client.ClientConfig.SatisfactionLossOnMissingItem;
-
-        Debug.Log(satisfactionGainedFromPrice);
-        Debug.Log(satisfactionLostFromForgottenItem);
-        Debug.Log(satisfactionLossFromMissingItem);
         
         _clientSatisfaction *= satisfactionGainedFromPrice * satisfactionLossFromMissingItem *
                                satisfactionLostFromForgottenItem;

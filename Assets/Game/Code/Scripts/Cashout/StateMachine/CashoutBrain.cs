@@ -193,7 +193,6 @@ public class CashoutBrain : StateMachine
             
             //yield return new WaitForSeconds(0.1f);
             
-            Debug.Log("Trying to destroy client", this);
             _clientHolder.TryDestroyClient();
             
             yield return new WaitForSeconds(0.1f);

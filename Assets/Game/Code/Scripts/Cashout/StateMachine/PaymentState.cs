@@ -54,7 +54,6 @@ public class PaymentState : BaseState
     {
         _currentClient.PrepareToLeave(totalPrice);
 
-        Debug.Log("Registered total price: " + totalPrice, this);
         OnClientFinished?.Invoke();
 
         StartCoroutine(LeaveCoroutine());

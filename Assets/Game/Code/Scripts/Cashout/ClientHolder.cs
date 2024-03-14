@@ -61,7 +61,6 @@ public class ClientHolder : SerializedMonoBehaviour
         if (_currentClient == null) return;
         
         Destroy(_currentClient.gameObject);
-        Debug.Log("Client destroyed : " + _currentClient.client.ClientName, this);
         TrySelectNextClient();
     }
         
