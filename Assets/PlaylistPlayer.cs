@@ -159,8 +159,7 @@ public class PlaylistPlayer : MonoBehaviour
     {
         while (true)
         {
-            //yield return new WaitForSeconds(Random.Range(60, 125));
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(Random.Range(60, 125));
             Pause();
             _isAnnouncementPlaying = true;
             PlayMusic(_announcementSong);
