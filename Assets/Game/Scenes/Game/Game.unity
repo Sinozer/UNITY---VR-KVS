@@ -59660,6 +59660,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1355800763120570585, guid: 6099abe7afd36d849adeff943bb8c43d, type: 3}
+      propertyPath: _broadcastMicrophone.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355800763120570585, guid: 6099abe7afd36d849adeff943bb8c43d, type: 3}
+      propertyPath: _broadcastMicrophone.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: f9b3047c6c848fc4799c7dc87cf7181a, type: 3}
+    - target: {fileID: 1355800763120570585, guid: 6099abe7afd36d849adeff943bb8c43d, type: 3}
+      propertyPath: _broadcastMicrophone.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: a601874631cabea4c871e1bba18d8c61, type: 3}
+    - target: {fileID: 1355800763120570585, guid: 6099abe7afd36d849adeff943bb8c43d, type: 3}
+      propertyPath: _broadcastMicrophone.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 783e750f68576ef468a85db3019e11d9, type: 3}
     - target: {fileID: 6024757985345770515, guid: 6099abe7afd36d849adeff943bb8c43d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.51
