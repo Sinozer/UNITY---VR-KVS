@@ -15,12 +15,20 @@ public class LightCodeHandler : MonoBehaviour
 	[SerializeField] private TextMeshProUGUI _displayedCode;
 	[SerializeField, Range(2,8)] private int _codeLength = 4;
 	[SerializeField, ReadOnly] private string _code;
+    
+	[Header("Audio")]
+	[SerializeField] private AudioSource _audioSource;
 	
 	public void OnConfirmPressed()
 	{
 		if (_numericalPad.GetEnteredPriceAsString() == _code)
 		{
 			TurnLightsOn();
+		}
+		else
+		{
+			_numericalPad.ResetNumericalPad();
+			if (_audioSource) _audioSource.Play();
 		}
 	}
 	
