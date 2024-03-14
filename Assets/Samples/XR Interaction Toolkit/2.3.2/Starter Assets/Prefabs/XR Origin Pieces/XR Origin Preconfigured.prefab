@@ -357,7 +357,7 @@ MonoBehaviour:
   _onRaycastEnter: {fileID: 11400000, guid: 6510aabcf8581c34696d9ba0b3d57802, type: 2}
   _onRaycastExit: {fileID: 11400000, guid: 21f1ab8bd34b17842afbf25e6e1a47a4, type: 2}
   _onRaycastGrab: {fileID: 11400000, guid: b512b731aebf2234b80f912e9a994e02, type: 2}
-  _menu: {fileID: 5841303723552425631}
+  _menu: {fileID: 0}
 --- !u!1 &1670256624
 GameObject:
   m_ObjectHideFlags: 0
@@ -2523,11 +2523,6 @@ PrefabInstance:
 --- !u!224 &5827868749727991583 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4546105416100531316, guid: 7a06621230f745345a8cd10151108993, type: 3}
-  m_PrefabInstance: {fileID: 8068125108222675819}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5841303723552425631 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4532811193467244020, guid: 7a06621230f745345a8cd10151108993, type: 3}
   m_PrefabInstance: {fileID: 8068125108222675819}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8654467957078447927
