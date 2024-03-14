@@ -173,8 +173,11 @@ MonoBehaviour:
   - {fileID: 2800000, guid: cdb37e9b9a3effc498e89cc4f77bc629, type: 3}
   - {fileID: 2800000, guid: cc128443bfb071e488cab6465e365549, type: 3}
   - {fileID: 2800000, guid: ff2bca7a4041cda449ac345822c930c3, type: 3}
+  _neonMaterials: []
   _flashLight: {fileID: 0}
   _warningLight: {fileID: 0}
+  _warningLightIntensity: 2
+  _warningLightSpeed: 2
 --- !u!1 &8355474746401201336
 GameObject:
   m_ObjectHideFlags: 0

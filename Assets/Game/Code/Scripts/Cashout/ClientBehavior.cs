@@ -15,6 +15,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     public float ClientSatisfaction => _clientSatisfaction;
     public ClientSo client => _client;
     public ClientHumor ClientHumor => _clientHumor;
+    public ItemSo ForgottenItem => _forgottenItem;
 
     
     [ShowInInspector, ReadOnly] private ClientSo _client;
@@ -26,14 +27,16 @@ public class ClientBehavior : SerializedMonoBehaviour
     [Header("Item forgotten")] [OdinSerialize, ReadOnly]
     private ItemSo _forgottenItem;
     
-    // [SerializeField, Range(0, 1)]
-    private float _forgottenItemChance = 1f;
-
     [ShowInInspector, ReadOnly] private ClientHumor _clientHumor;
     [ShowInInspector, ReadOnly] private float _clientSatisfaction;
     [ShowInInspector, ReadOnly] private int _clientTimer;
+
+    private int _totalNumberProducts;
+    private int _totalScannedItem;
+    private float _supposedTotal;
     private float _clientSatisfactionStep;
     private bool _isDone;
+    private bool _isForgottenItemScanned = false;
     private Coroutine _clientTimerCoroutine;
     private List<Furniture> _spawnedItems;
 
@@ -61,20 +64,29 @@ public class ClientBehavior : SerializedMonoBehaviour
         for (int i = 0; i < _client.ClientConfig.MaxDifferentItems; i++)
         {
             ItemSo randomItem = GameManager.ItemRegistry.RandomItem;
-            if (_shoppingList.ContainsKey(randomItem)) return;
-
-            _shoppingList.Add(randomItem, Random.Range(1, _client.ClientConfig.MaxNumberOfSameItems));
+            if (_shoppingList.ContainsKey(randomItem))
+            {
+                i--;
+                continue;
+            }
+            
+            int randomAmount = Random.Range(1, _client.ClientConfig.MaxNumberOfSameItems);
+            _shoppingList.Add(randomItem, randomAmount);
+            _supposedTotal += randomItem.ItemPrice * randomAmount;
+            _totalNumberProducts += randomAmount;
         }
         
-        if (Random.value < _forgottenItemChance)
-            IsMissingItem();
+        if (Random.value < _client.ClientConfig.ForgottenItemChance)
+            SetForgottenProduct();
     }
     
     public IEnumerator SpawnItems(BoxCollider spawnArea)
     {
         _clientTimerCoroutine = StartCoroutine(ClientTimerCoroutine());
         
-        foreach (KeyValuePair<ItemSo, int> item in _shoppingList)
+        var copyList = _shoppingList.ToArray();
+        
+        foreach (KeyValuePair<ItemSo, int> item in copyList)
         {
             for (int i = 0; i < item.Value; i++)
             {
@@ -121,10 +133,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     {
         _isDone = true;
         
-        float supposedTotal = _spawnedItems.Sum(item => item.ProductSo.ItemPrice);
-        float satisfactionGainedFromPrice = totalScannedPrice / supposedTotal;
-
-        _clientSatisfaction *= satisfactionGainedFromPrice;
+        CalculateFinalClientSatisfaction(totalScannedPrice);
 
         foreach (Furniture item in _spawnedItems)
         {
@@ -137,8 +146,57 @@ public class ClientBehavior : SerializedMonoBehaviour
             _clientTimerCoroutine = null;
         }
     }
+
+    private void CalculateFinalClientSatisfaction(float totalScannedPrice)
+    {
+        float satisfactionGainedFromPrice = totalScannedPrice / _supposedTotal;
+
+        float satisfactionLostFromForgottenItem =
+            _isForgottenItemScanned ? 0 : _client.ClientConfig.SatisfactionLossOnForgottenItem;
+        
+        int numberOfMissingItem = 0;
+        foreach (var product in _shoppingList)
+        {
+            numberOfMissingItem += product.Value;
+        }
+
+        float satisfactionLossFromMissingItem = numberOfMissingItem * _client.ClientConfig.SatisfactionLossOnMissingItem;
+
+        _clientSatisfaction *= satisfactionGainedFromPrice * satisfactionLossFromMissingItem *
+                               satisfactionLostFromForgottenItem;
+    }
+
+    public void OnProductScanned(ItemSo product)
+    {
+        _totalScannedItem++;
+        
+        if (_shoppingList.ContainsKey(product))
+        {
+            _shoppingList[product]--;
+        }
+        
+        if (_forgottenItem == product)
+        {
+            _isForgottenItemScanned = true;
+        }
+    }
     
-    private void IsMissingItem()
+    public void OnProductRemoved(ItemSo product)
+    {
+        _totalScannedItem--;
+        
+        if (_shoppingList.ContainsKey(product))
+        {
+            _shoppingList[product]++;
+        }
+        
+        if (_forgottenItem == product)
+        {
+            _isForgottenItemScanned = false;
+        }
+    }
+    
+    private void SetForgottenProduct()
     {
         int randomIndex = Random.Range(0, _shoppingList.Count - 1);
         

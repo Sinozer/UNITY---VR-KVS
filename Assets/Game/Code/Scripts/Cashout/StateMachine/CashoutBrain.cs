@@ -60,13 +60,16 @@ public class CashoutBrain : StateMachine
         // _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
         _onProductScanned.OnEvent -= RegisterItemToCashout;
     }
-    
+
+    private void Awake()
+    {
+        _clientHolder.Initialize(_spawnPoint);
+        _clientHolder.StartSpawning();
+    }
+
     private void Start()
     {
         ResetCashout();
-        
-        _clientHolder.Initialize(_spawnPoint);
-        _clientHolder.StartSpawning();
         
         GoBackToWaitingState();
     }
@@ -79,15 +82,25 @@ public class CashoutBrain : StateMachine
         _lastProductDisplayUI.SetTextAndPrice(product.ItemName, product.ItemPrice);
         _cashoutDisplayUI.AddItemInfoToList(product, _globalProductIndex, RemoveSelectedProduct);
 
+        if (_clientHolder.CurrentClient != null)
+        {
+            _clientHolder.CurrentClient.OnProductScanned(product);
+        }
+
         UpdateTotalPriceText();
     }
     
-    private void RemoveSelectedProduct(int index)
+    private void RemoveSelectedProduct(int index, ItemSo product)
     {
         float productPrice = _cashoutDisplayUI.RemoveSelectedItemAndGetPrice(index);
         TotalScannedPrice -= productPrice;
         
         UpdateTotalPriceText();
+        
+        if (_clientHolder.CurrentClient != null)
+        {
+            _clientHolder.CurrentClient.OnProductRemoved(product);
+        }
     }
 
     private void ResetCashout()
@@ -131,8 +144,6 @@ public class CashoutBrain : StateMachine
     
     private void GoBackToWaitingState()
     {
-        UIManager.Instance.UpdateClientTracker(_clientHolder.CurrentClient.client);
-        
         ChangeState(_waitingState, _clientHolder.CurrentClient, _itemDeliveryPoint);
         _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;
     }
@@ -154,8 +165,6 @@ public class CashoutBrain : StateMachine
     {
         StartCoroutine(DoorCoroutine());
         
-        GoBackToWaitingState();
-
         return;
         
         IEnumerator DoorCoroutine()
@@ -166,7 +175,9 @@ public class CashoutBrain : StateMachine
             
             yield return StartCoroutine(SetDoorRotation(false));
             
-            _clientHolder.OnCurrentClientFinished();
+            _clientHolder.TrySelectNextClient();
+            _clientHolder.TryDestroyPreviousClient();
+            GoBackToWaitingState();
         }
     }
     

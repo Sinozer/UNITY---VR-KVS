@@ -35,8 +35,6 @@ public class NumericalPad : MonoBehaviour
 
     public void AddNumber(string numberToAdd)
     {
-        if (_stringBuilder.Length == 1 && numberToAdd == "0") return;
-        
         _stringBuilder.Append(numberToAdd);
         RefreshTextUI();
     }

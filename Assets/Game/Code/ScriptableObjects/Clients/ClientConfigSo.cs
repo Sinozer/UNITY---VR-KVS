@@ -28,22 +28,30 @@ public class ClientConfigSo : ScriptableObject
     public int MaxDifferentItems => _maxDifferentItems;
     public int MaxNumberOfSameItems => _maxNumberOfSameItems;
     public float BaseSatisfaction => _baseSatisfaction;
+    public float ForgottenItemChance => _forgottenItemChance;
+    public float SatisfactionLossOnMissingItem => _satisfactionLossOnMissingItem;
+    public float SatisfactionLossOnForgottenItem => _satisfactionLossOnForgottenItem;
     public ClientHumor BaseHumor => _baseHumor;
     public Color ClientColor => _clientColor;
     public ClientType ClientType => _clientType;
     public int MaxHumor => _maxHumor;
+    
 
     [SerializeField] private ClientType _clientType; 
     [SerializeField, MinValue(0)] private int _timerInSeconds;
     
     [Header("Humor")]
     [SerializeField, Range(20, 100), OnValueChanged(nameof(DetermineHumor))] private float _baseSatisfaction;
+    [SerializeField, Range(0, 1)] private float _satisfactionLossOnMissingItem = 0.1f; 
+    [SerializeField, Range(0, 1)] private float _satisfactionLossOnForgottenItem = 0.3f; 
     [ShowInInspector, ReadOnly] private ClientHumor _baseHumor;
+    
     
     [Header("Skin")]
     [SerializeField] private Color _clientColor;
     
     [Header("Items")]
+    [SerializeField, Range(0, 1)] private float _forgottenItemChance;
     [SerializeField, MinValue(0)] private float _spawnDelayBetweenItems;
     [SerializeField, MinValue(0)] private int _maxDifferentItems;
     [SerializeField, MinValue(0)] private int _maxNumberOfSameItems;

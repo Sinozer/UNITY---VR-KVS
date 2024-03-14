@@ -40,7 +40,7 @@ public class CashoutDisplayUI : StateMachine
         ChangeState(_paymentView);
     }
     
-    public void AddItemInfoToList(ItemSo product, int index, Action<int> deleteCallback)
+    public void AddItemInfoToList(ItemSo product, int index, Action<int, ItemSo> deleteCallback)
     {
         TextAndPriceUI textAndPrice = Instantiate(_textAndPricePrefab.gameObject, _productListLayout.transform)
             .GetComponent<TextAndPriceUI>();

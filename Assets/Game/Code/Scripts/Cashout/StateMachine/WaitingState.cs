@@ -13,6 +13,11 @@ public class WaitingState : BaseState
         base.Enter(stateMachine, args);
         _currentClient = args[0] as ClientBehavior;
         _itemDeliveryPoint = args[1] as Transform;
+        
+        if (_currentClient != null)
+        {
+            UIManager.Instance.UpdateClientTracker(_currentClient.client);
+        }
     }
 
     private ClientBehavior _currentClient;
