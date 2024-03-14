@@ -17,9 +17,14 @@ public class LightCodeHandler : MonoBehaviour
 	[SerializeField, ReadOnly] private string _code;
     
 	[Header("Audio")]
+	[SerializeField] private MarketRadioPlayer _marketRadioPlayer;
 	[SerializeField] private AudioSource _audioSource;
 	[SerializeField] private AudioClip _greatSound;
 	[SerializeField] private AudioClip _wrongSound;
+	
+	[Header("Cashout")]
+	[SerializeField] private CashoutBrain _cashoutBrain;
+	
 	
 	public void OnConfirmPressed()
 	{
@@ -62,6 +67,8 @@ public class LightCodeHandler : MonoBehaviour
 	
 	private void TurnLightsOn()
 	{
+		_cashoutBrain.ActivateCashout();
+		_marketRadioPlayer.Resume();
 		_switchLights.TurnLightsOn();
 		ResetCode();
 		StartLightsSwitchTimer();
@@ -69,6 +76,8 @@ public class LightCodeHandler : MonoBehaviour
 
 	private void LightsOff()
 	{
+		_cashoutBrain.DeactivateCashout();
+		_marketRadioPlayer.Pause();
 		_switchLights.TurnLightsOff();
 		GenerateCode();
 	}

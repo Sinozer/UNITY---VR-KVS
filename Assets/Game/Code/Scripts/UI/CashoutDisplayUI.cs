@@ -25,7 +25,11 @@ public class CashoutDisplayUI : StateMachine
     
     public event Action OnProductListChanged;
 
-    
+    private void Awake()
+    {
+        _paymentView.gameObject.SetActive(false);
+    }
+
     public void SetProductListView()
     {
         _headerText.text = "Product List";
@@ -87,6 +91,7 @@ public class CashoutDisplayUI : StateMachine
         foreach (RectTransform child in _productListLayout.transform)
         {
             Destroy(child.gameObject);
+            _productList.Clear();
         }
         
         OnProductListChanged?.Invoke();

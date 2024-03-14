@@ -6,7 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PlaylistPlayer : MonoBehaviour
+public class MarketRadioPlayer : MonoBehaviour
 {
     // [SerializeField] private AudioSource _audioSource;
     [SerializeField, ReadOnly] private List<AudioSource> _audioSources;
@@ -16,11 +16,13 @@ public class PlaylistPlayer : MonoBehaviour
     [SerializeField] private List<AudioClip> _broadcastMicrophone;
     
     private int _currentTrackIndex;
+    private float _baseVolume;
     private bool _isAnnouncementPlaying;
 
     private void Awake()
     {
         _audioSources = GetComponentsInChildren<AudioSource>().ToList();
+        _baseVolume = _audioSources[0].volume;
     }
 
     private void Start()
@@ -113,10 +115,12 @@ public class PlaylistPlayer : MonoBehaviour
         foreach (AudioSource audioSource in _audioSources)
         {
             audioSource.clip = clip;
+        }
+        
+        foreach (AudioSource audioSource in _audioSources)
+        {
             audioSource.Play();
         }
-        // _audioSource.clip = clip;
-        // _audioSource.Play();
     }
 
     public void Stop()
@@ -125,7 +129,6 @@ public class PlaylistPlayer : MonoBehaviour
         {
             audioSource.Stop();
         }
-        // _audioSource.Stop();
     }
     
     public void Pause()
@@ -134,7 +137,6 @@ public class PlaylistPlayer : MonoBehaviour
         {
             audioSource.Pause();
         }
-        // _audioSource.Pause();
     }
     
     public void Resume()
@@ -143,7 +145,6 @@ public class PlaylistPlayer : MonoBehaviour
         {
             audioSource.UnPause();
         }
-        // _audioSource.UnPause();
     }
     
     public void SetVolume(float volume)
@@ -152,7 +153,6 @@ public class PlaylistPlayer : MonoBehaviour
         {
             audioSource.volume = volume;
         }
-        // _audioSource.volume = volume;
     }
     
     IEnumerator PlayBroadcastMicrophone()
@@ -160,12 +160,15 @@ public class PlaylistPlayer : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(60, 125));
+            
             Pause();
+            SetVolume(1.5f);
             _isAnnouncementPlaying = true;
             PlayMusic(_announcementSong);
             
             yield return new WaitForSeconds(_announcementSong.length + 1);
             
+            SetVolume(_baseVolume);
             AudioClip randomBroadcast = _broadcastMicrophone[Random.Range(0, _broadcastMicrophone.Count)];
             PlayMusic(randomBroadcast);
             

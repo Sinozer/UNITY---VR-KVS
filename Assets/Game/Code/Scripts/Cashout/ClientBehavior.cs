@@ -165,13 +165,17 @@ public class ClientBehavior : SerializedMonoBehaviour
         {
             satisfactionGainedFromPrice = 1.5f;
         }
+        else if (Math.Abs(totalScannedPrice - _supposedTotal) < 0.1f)
+        {
+            satisfactionGainedFromPrice = 1.1f;
+        }
         else
         {
             satisfactionGainedFromPrice = 1;
         }
 
         float satisfactionLostFromForgottenItem =
-            _isForgottenItemScanned ? 0 : _client.ClientConfig.SatisfactionLossOnForgottenItem;
+            _isForgottenItemScanned ? 1 : 1 - _client.ClientConfig.SatisfactionLossOnForgottenItem;
         
         int numberOfMissingItem = 0;
         foreach (var product in _shoppingList)
@@ -179,7 +183,7 @@ public class ClientBehavior : SerializedMonoBehaviour
             numberOfMissingItem += product.Value;
         }
 
-        float satisfactionLossFromMissingItem = numberOfMissingItem * _client.ClientConfig.SatisfactionLossOnMissingItem;
+        float satisfactionLossFromMissingItem = 1 - numberOfMissingItem * _client.ClientConfig.SatisfactionLossOnMissingItem;
 
         Debug.Log(satisfactionGainedFromPrice);
         Debug.Log(satisfactionLostFromForgottenItem);

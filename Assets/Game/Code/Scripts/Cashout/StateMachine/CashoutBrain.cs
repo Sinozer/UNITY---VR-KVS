@@ -219,5 +219,16 @@ public class CashoutBrain : StateMachine
         }
     }
     
+    public void DeactivateCashout()
+    {
+        _cashoutDisplayUI.gameObject.SetActive(false);
+        _furnitureScanner.gameObject.SetActive(false);
+    }
+    
+    public void ActivateCashout()
+    {
+        _cashoutDisplayUI.gameObject.SetActive(true);
+        _furnitureScanner.gameObject.SetActive(true);
+    }
     
 }

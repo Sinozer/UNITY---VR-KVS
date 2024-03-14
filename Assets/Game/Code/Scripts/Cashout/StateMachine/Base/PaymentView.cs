@@ -29,7 +29,7 @@ public class PaymentView : BaseState
 
     public void InitNumericalView(float scannedPrice)
     {
-        _scannedPriceUI.text = scannedPrice.ToString(CultureInfo.InvariantCulture);
+        _scannedPriceUI.text = scannedPrice.ToString("00.00");
         _numericalPad.ResetNumericalPad();
     }
 }

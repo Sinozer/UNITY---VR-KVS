@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float _maxSatisfactionToAdd = 15;
     
     private float _currentMoneyQuota;
-    private float _currentClientSatisfaction;
+    private float _globalClientSatisfaction;
     
     private const float MAX_CLIENT_SATISFACTION = 100;
 
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         _player.transform.position = _playerSpawnPoint.transform.position;
 
         _currentMoneyQuota = 0;
-        _currentClientSatisfaction = 50;
+        _globalClientSatisfaction = 50;
         
         UpdateMoneyQuotaUI();
         UpdateClientSatisfactionUI();
@@ -68,12 +68,13 @@ public class GameManager : MonoBehaviour
 
     private void UpdateClientSatisfaction(float clientSatisfaction)
     {
-        clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, 100);
+        Debug.Log(clientSatisfaction);
+        clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, MAX_CLIENT_SATISFACTION);
         
-        float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - 50) / 50, -1, 1);
-        _currentClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
+        float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - MAX_CLIENT_SATISFACTION * 0.5f) / MAX_CLIENT_SATISFACTION * 0.5f, -1, 1);
+        _globalClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
         
-        Debug.Log(_currentClientSatisfaction);
+        Debug.Log(_globalClientSatisfaction);
 
         UpdateClientSatisfactionUI();
     }
@@ -85,6 +86,6 @@ public class GameManager : MonoBehaviour
     
     private void UpdateClientSatisfactionUI()
     {
-        OnClientSatisfactionUpdated?.Invoke(_currentClientSatisfaction, MAX_CLIENT_SATISFACTION);
+        OnClientSatisfactionUpdated?.Invoke(_globalClientSatisfaction, MAX_CLIENT_SATISFACTION);
     }
 }
