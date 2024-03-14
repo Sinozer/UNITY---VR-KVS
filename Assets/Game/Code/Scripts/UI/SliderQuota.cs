@@ -35,7 +35,6 @@ public class SliderQuota : MonoBehaviour
         }
         else
         {
-            Debug.Log(currentQuota);
             _quotaPercentage.text = currentQuota + "/" + quotaToReach;
         }
     }

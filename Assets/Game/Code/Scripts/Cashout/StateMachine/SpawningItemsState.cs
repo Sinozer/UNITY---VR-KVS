@@ -19,9 +19,13 @@ public class SpawningItemsState : BaseState
         base.Enter(stateMachine, args);
         _currentClient = args[0] as ClientBehavior;
         _spawnArea = args[1] as BoxCollider;
-
-        StartCoroutine(ClientCoroutine());
-
+        
+        if (_currentClient != null)
+        {
+            UIManager.Instance.UpdateForgottenProductTracker(_currentClient.ForgottenItem);
+            StartCoroutine(ClientCoroutine());
+        }
+        
         return;
 
         IEnumerator ClientCoroutine()

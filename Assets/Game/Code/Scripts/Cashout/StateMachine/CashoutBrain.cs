@@ -53,12 +53,26 @@ public class CashoutBrain : StateMachine
     {
         // _furnitureScanner.OnItemScanned += RegisterItemToCashout;
         _onProductScanned.OnEvent += RegisterItemToCashout;
+        
+        _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;
+        
+        _spawningItemsState.OnClientItemsSpawned += OnClientItemsSpawned;
+        
+        _paymentState.OnClientFinished += OnClientFinished;
+        OnTotalPriceRegistered += _paymentState.OnTotalPriceRegistered;
     }
     
     private void OnDisable()
     {
         // _furnitureScanner.OnItemScanned -= RegisterItemToCashout;
         _onProductScanned.OnEvent -= RegisterItemToCashout;
+
+        _waitingState.OnClientArrivedAtDeliveryPoint -= OnClientArrivedAtDeliveryPoint;
+        
+        _spawningItemsState.OnClientItemsSpawned -= OnClientItemsSpawned;
+        
+        _paymentState.OnClientFinished -= OnClientFinished;
+        OnTotalPriceRegistered -= _paymentState.OnTotalPriceRegistered;
     }
 
     private void Awake()
@@ -109,6 +123,7 @@ public class CashoutBrain : StateMachine
         TotalScannedPrice = 0;
         
         _cashoutDisplayUI.SetProductListView();
+        _cashoutDisplayUI.ResetRegisteredProducts();
         
         _totalTextUI.ResetPrice();
         _lastProductDisplayUI.ResetAll();
@@ -145,24 +160,23 @@ public class CashoutBrain : StateMachine
     private void GoBackToWaitingState()
     {
         ChangeState(_waitingState, _clientHolder.CurrentClient, _itemDeliveryPoint);
-        _waitingState.OnClientArrivedAtDeliveryPoint += OnClientArrivedAtDeliveryPoint;
     }
     
     private void OnClientArrivedAtDeliveryPoint()
     {
         _clientHolder.CurrentClient.OnTimerUpdated += UIManager.Instance.UpdateClientTimer;
         ChangeState(_spawningItemsState, _clientHolder.CurrentClient, _furnitureSpawnArea);
-        _spawningItemsState.OnClientItemsSpawned += OnClientItemsSpawned;
     }
     
     private void OnClientItemsSpawned()
     {
         ChangeState(_paymentState, _clientHolder.CurrentClient, _paymentPoint, _leavePoint);
-        _paymentState.OnClientFinished += OnClientFinished;
     }
     
     private void OnClientFinished()
     {
+        _clientHolder.CurrentClient.OnTimerUpdated -= UIManager.Instance.UpdateClientTimer;
+        
         StartCoroutine(DoorCoroutine());
         
         return;
@@ -175,8 +189,15 @@ public class CashoutBrain : StateMachine
             
             yield return StartCoroutine(SetDoorRotation(false));
             
-            _clientHolder.TrySelectNextClient();
-            _clientHolder.TryDestroyPreviousClient();
+            //_clientHolder.TrySelectNextClient();
+            
+            //yield return new WaitForSeconds(0.1f);
+            
+            Debug.Log("Trying to destroy client", this);
+            _clientHolder.TryDestroyClient();
+            
+            yield return new WaitForSeconds(0.1f);
+
             GoBackToWaitingState();
         }
     }

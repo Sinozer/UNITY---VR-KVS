@@ -30,7 +30,6 @@ public class CashoutDisplayUI : StateMachine
     {
         _headerText.text = "Product List";
         ChangeState(_productListView);
-        ResetRegisteredProducts();
     }
 
     public void SetPaymentView(float scannedPrice)
@@ -83,7 +82,7 @@ public class CashoutDisplayUI : StateMachine
         }
     }
 
-    private void ResetRegisteredProducts()
+    public void ResetRegisteredProducts()
     {
         foreach (RectTransform child in _productListLayout.transform)
         {

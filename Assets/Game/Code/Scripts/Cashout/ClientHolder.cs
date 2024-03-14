@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ClientHolder : SerializedMonoBehaviour
 {
     public ClientBehavior CurrentClient
     {
-        get => _currentClient;
+        get
+        {
+            if (_currentClient == null)
+            {
+                TrySelectNextClient();
+            }
+
+            return _currentClient;
+        }
         set
         {
             _currentClient = value;
@@ -19,11 +28,10 @@ public class ClientHolder : SerializedMonoBehaviour
             // Get the player UI to display the forgotten item if there is one
         }
     }
-
-    private ClientBehavior _previousClient;
     
     [SerializeField] private GameObject _clientPrefab;
     [SerializeField, Range(5, 120)] private float _spawnRate;
+    [SerializeField, MinValue(0)] private int _maxWaitingClients = 5; 
     [SerializeField] private List<ClientSo> _clientsConfig;
     
     [Header("Debug")]
@@ -48,12 +56,13 @@ public class ClientHolder : SerializedMonoBehaviour
         _spawnCoroutine = StartCoroutine(SpawnClients());
     }
     
-    public void TryDestroyPreviousClient()
+    public void TryDestroyClient()
     {
-        if (_previousClient != null)
-        {
-            Destroy(_previousClient.gameObject);
-        }
+        if (_currentClient == null) return;
+        
+        Destroy(_currentClient.gameObject);
+        Debug.Log("Client destroyed : " + _currentClient.client.ClientName, this);
+        TrySelectNextClient();
     }
         
     private Coroutine _spawnCoroutine;
@@ -63,6 +72,12 @@ public class ClientHolder : SerializedMonoBehaviour
     {
         while (true)
         {
+            if (_waitingClients.Count >= _maxWaitingClients)
+            {
+                yield return new WaitForSeconds(_spawnRate);
+                continue;
+            }
+            
             Vector3 spawnPoint = _spawnPoint.position;
             ClientBehavior client = Instantiate(_clientPrefab, spawnPoint, Quaternion.identity)
                 .GetComponent<ClientBehavior>();
@@ -85,7 +100,6 @@ public class ClientHolder : SerializedMonoBehaviour
 
     public void TrySelectNextClient()
     {
-        _previousClient = CurrentClient;
         CurrentClient = _waitingClients.Count > 0 ? _waitingClients.Dequeue() : null;
     }
 }

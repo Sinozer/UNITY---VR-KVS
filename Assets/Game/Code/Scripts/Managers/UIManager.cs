@@ -39,12 +39,19 @@ public class UIManager : MonoBehaviour
         _clientSatisfactionUI.ShowClientInfo(client);
     }
 
-    public void UpdateProductTracker(ItemSo product)
+    public void UpdateForgottenProductTracker(ItemSo product)
     {
-        if (!_productUI.gameObject.activeSelf)
-            _productUI.gameObject.SetActive(true);
+        if (!product)
+        {
+            HideForgottenProductTracker();
+        }
+        else
+        {
+            if (!_productUI.gameObject.activeSelf)
+                _productUI.gameObject.SetActive(true);
         
-        _productUI.Item = product;
+            _productUI.Item = product;
+        }
     }
 
     public void UpdateClientTimer(int timer)

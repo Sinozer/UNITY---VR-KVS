@@ -30,6 +30,7 @@ public class ClientBehavior : SerializedMonoBehaviour
     [ShowInInspector, ReadOnly] private ClientHumor _clientHumor;
     [ShowInInspector, ReadOnly] private float _clientSatisfaction;
     [ShowInInspector, ReadOnly] private int _clientTimer;
+    private int _timerThreshold;
 
     private int _totalNumberProducts;
     private int _totalScannedItem;
@@ -49,9 +50,10 @@ public class ClientBehavior : SerializedMonoBehaviour
         _client = client;
         
         _clientTimer = _client.ClientConfig.TimerInSeconds;
+        _timerThreshold = _clientTimer / 2;
         _clientSatisfaction = _client.ClientConfig.BaseSatisfaction;
         _clientHumor = _client.ClientConfig.BaseHumor;
-        _clientSatisfactionStep = (_client.ClientConfig.BaseSatisfaction / _client.ClientConfig.TimerInSeconds) * 0.5f;
+        _clientSatisfactionStep = (_client.ClientConfig.BaseSatisfaction / _timerThreshold) * 0.5f;
         
         _isDone = false;
     }
@@ -119,8 +121,12 @@ public class ClientBehavior : SerializedMonoBehaviour
     private void UpdateClient()
     {
         _clientTimer--;
-        _clientSatisfaction -= _clientSatisfactionStep;
-        UpdateClientHumor();
+        
+        if (_clientTimer <= _timerThreshold)
+        {
+            _clientSatisfaction -= _clientSatisfactionStep;
+            UpdateClientHumor();
+        }
     }
 
     private void UpdateClientHumor()
@@ -149,7 +155,20 @@ public class ClientBehavior : SerializedMonoBehaviour
 
     private void CalculateFinalClientSatisfaction(float totalScannedPrice)
     {
-        float satisfactionGainedFromPrice = totalScannedPrice / _supposedTotal;
+        // TODO: moved values to client config
+        float satisfactionGainedFromPrice;
+        if (totalScannedPrice > _supposedTotal * 1.1f)
+        {
+            satisfactionGainedFromPrice = 0.75f;
+        }
+        else if (totalScannedPrice < _supposedTotal * 1.1f)
+        {
+            satisfactionGainedFromPrice = 1.5f;
+        }
+        else
+        {
+            satisfactionGainedFromPrice = 1;
+        }
 
         float satisfactionLostFromForgottenItem =
             _isForgottenItemScanned ? 0 : _client.ClientConfig.SatisfactionLossOnForgottenItem;
@@ -162,6 +181,10 @@ public class ClientBehavior : SerializedMonoBehaviour
 
         float satisfactionLossFromMissingItem = numberOfMissingItem * _client.ClientConfig.SatisfactionLossOnMissingItem;
 
+        Debug.Log(satisfactionGainedFromPrice);
+        Debug.Log(satisfactionLostFromForgottenItem);
+        Debug.Log(satisfactionLossFromMissingItem);
+        
         _clientSatisfaction *= satisfactionGainedFromPrice * satisfactionLossFromMissingItem *
                                satisfactionLostFromForgottenItem;
     }
@@ -172,7 +195,10 @@ public class ClientBehavior : SerializedMonoBehaviour
         
         if (_shoppingList.ContainsKey(product))
         {
-            _shoppingList[product]--;
+            if (_shoppingList[product] > 0)
+            {
+                _shoppingList[product]--;
+            }
         }
         
         if (_forgottenItem == product)
@@ -202,7 +228,5 @@ public class ClientBehavior : SerializedMonoBehaviour
         
         _forgottenItem = _shoppingList.Keys.ElementAt(randomIndex);
         _shoppingList.Remove(_forgottenItem);
-
-        UIManager.Instance.UpdateProductTracker(_forgottenItem);
     }
 }

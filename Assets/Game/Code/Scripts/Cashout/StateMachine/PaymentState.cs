@@ -39,8 +39,6 @@ public class PaymentState : BaseState
                 var random = _clientSoundSO.AudioClipList[indx];
                 _currentClient.gameObject.GetComponentInChildren<AudioSource>().PlayOneShot(random);
             }
-            var brain = stateMachine as CashoutBrain;
-            brain!.OnTotalPriceRegistered += OnTotalPriceRegistered;
 
             yield return RotateClient(false);
 
@@ -51,42 +49,12 @@ public class PaymentState : BaseState
             yield return RotateClient(true);
         }
     }
-
-    private ClientBehavior _currentClient;
-    private Transform _paymentPoint;
-    private Transform _leavePoint;
-
-    private IEnumerator RotateClient(bool shouldFaceCashOut)
-    {
-        float time = 0.0f;
-        float duration = _clientRotationCurve.keys[_clientRotationCurve.length - 1].time;
-        float angleA = shouldFaceCashOut ? 0.0f : _rotationAngle;
-        float angleB = shouldFaceCashOut ? _rotationAngle : 0.0f;
-
-        while (time < duration)
-        {
-            float rotationAngle = Mathf.Lerp(angleA, angleB, _clientRotationCurve.Evaluate(time));
-            _currentClient.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator WalkTo(Vector3 to)
-    {
-        float step = _clientSpeed * Time.deltaTime;
-        while (_currentClient != null && Vector3.Distance(_currentClient.transform.position, to) > _paymentWaypointAcceptanceRadius)
-        {
-            _currentClient.transform.position = Vector3.MoveTowards(_currentClient.transform.position, to, step);
-            yield return null;
-        }
-    }
-
-    private void OnTotalPriceRegistered(float totalPrice)
+    
+    public void OnTotalPriceRegistered(float totalPrice)
     {
         _currentClient.PrepareToLeave(totalPrice);
 
+        Debug.Log("Registered total price: " + totalPrice, this);
         OnClientFinished?.Invoke();
 
         StartCoroutine(LeaveCoroutine());
@@ -118,4 +86,39 @@ public class PaymentState : BaseState
             }
         }
     }
+
+    private ClientBehavior _currentClient;
+    private Transform _paymentPoint;
+    private Transform _leavePoint;
+    
+    private CashoutBrain _cashoutBrain;
+
+    private IEnumerator RotateClient(bool shouldFaceCashOut)
+    {
+        float time = 0.0f;
+        float duration = _clientRotationCurve.keys[_clientRotationCurve.length - 1].time;
+        float angleA = shouldFaceCashOut ? 0.0f : _rotationAngle;
+        float angleB = shouldFaceCashOut ? _rotationAngle : 0.0f;
+
+        while (time < duration)
+        {
+            float rotationAngle = Mathf.Lerp(angleA, angleB, _clientRotationCurve.Evaluate(time));
+            _currentClient.transform.rotation = Quaternion.Euler(0.0f, rotationAngle, 0.0f);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator WalkTo(Vector3 to)
+    {
+        float step = _clientSpeed * Time.deltaTime;
+        while (_currentClient != null && Vector3.Distance(_currentClient.transform.position, to) > _paymentWaypointAcceptanceRadius)
+        {
+            _currentClient.transform.position = Vector3.MoveTowards(_currentClient.transform.position, to, step);
+            yield return null;
+        }
+    }
+
+    
 }
