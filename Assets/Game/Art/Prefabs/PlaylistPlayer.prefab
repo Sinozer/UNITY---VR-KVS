@@ -193,3 +193,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 149d25522ed5f714c8f41c38603c5b3f, type: 3}
   - {fileID: 8300000, guid: d23fdafe1c68ce1449ce96cb72992e64, type: 3}
   - {fileID: 8300000, guid: 85bdf7661a0400d4d86d37e0d9780b3c, type: 3}
+  _announcementSong: {fileID: 8300000, guid: e0e0b712fd90f44428f15a8750003cbc, type: 3}
+  _broadcastMicrophone:
+  - {fileID: 8300000, guid: f9b3047c6c848fc4799c7dc87cf7181a, type: 3}
+  - {fileID: 8300000, guid: a601874631cabea4c871e1bba18d8c61, type: 3}
+  - {fileID: 8300000, guid: 783e750f68576ef468a85db3019e11d9, type: 3}

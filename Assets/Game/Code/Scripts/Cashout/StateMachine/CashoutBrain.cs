@@ -39,6 +39,10 @@ public class CashoutBrain : StateMachine
     
     [Header("Events")]
     [SerializeField] private ItemEventSO _onProductScanned;
+    
+    [Header("Audio")]
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _confirmPaymentSong;
 
     private int _globalProductIndex;
 
@@ -117,6 +121,7 @@ public class CashoutBrain : StateMachine
         {
             float enteredPrice = _cashoutDisplayUI.EnteredPrice;
             OnTotalPriceRegistered?.Invoke(enteredPrice);
+            _audioSource.PlayOneShot(_confirmPaymentSong);
             
             GameManager.Instance.UpdateQuota(enteredPrice, _clientHolder.CurrentClient.ClientSatisfaction);
             
