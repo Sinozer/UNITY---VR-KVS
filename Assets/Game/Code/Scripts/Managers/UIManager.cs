@@ -1,6 +1,4 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
@@ -29,7 +27,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        HideProductTracker();
+        HideForgottenProductTracker();
         HideClientTracker();
     }
 
@@ -59,7 +57,7 @@ public class UIManager : MonoBehaviour
         _clientSatisfactionUI.UpdateHumor(clientHumor);
     }
 
-    public void HideProductTracker()
+    public void HideForgottenProductTracker()
     {
         _productUI.gameObject.SetActive(false);
     }
