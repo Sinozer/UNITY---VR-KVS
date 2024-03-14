@@ -23,12 +23,21 @@ public class SwitchLights : MonoBehaviour
 	[SerializeField] private Light _warningLight;
 	[SerializeField, Range(0, 10)] private float _warningLightIntensity = 2;
 	[SerializeField, Range(0, 10)] private float _warningLightSpeed = 2;
+	
+	[SerializeField] private List<SwapTexture> _swapTextures;
 
 	[Button]
 	public void TurnLightsOff()
 	{
 		if (_flashLight) _flashLight.enabled = true;
 		if (_warningLight) _warningLight.enabled = true;
+		if (_swapTextures != null)
+		{
+			foreach (var swapTexture in _swapTextures)
+			{
+				swapTexture.SetSwapMaterial();
+			}
+		}
 		
 		RenderSettings.skybox = _nightSkybox;
 		RenderSettings.ambientIntensity = _nightSkyboxIntensity;
@@ -47,6 +56,13 @@ public class SwitchLights : MonoBehaviour
 	{
 		if (_flashLight) _flashLight.enabled = false;
 		if (_warningLight) _warningLight.enabled = false;
+		if (_swapTextures != null)
+		{
+			foreach (var swapTexture in _swapTextures)
+			{
+				swapTexture.SetBaseMaterial();
+			}
+		}
 
 		RenderSettings.skybox = _daySkybox;
 		RenderSettings.ambientIntensity = _daySkyboxIntensity;
@@ -94,7 +110,7 @@ public class SwitchLights : MonoBehaviour
 		}
 
 		_brightLightmap = blightmap.ToArray();
-
+		
 		TurnLightsOn();
 	}
 

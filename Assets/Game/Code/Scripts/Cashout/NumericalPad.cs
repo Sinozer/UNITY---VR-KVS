@@ -14,7 +14,6 @@ public class NumericalPad : MonoBehaviour
     
     private readonly StringBuilder _stringBuilder = new();
     private bool _isDecimalAdded;
-    
 
     private void OnEnable()
     {

@@ -11,6 +11,7 @@ public class FurnitureScanner : MonoBehaviour
     
     [SerializeField] private AudioSource _audioSource;
     
+    
     [Header("Settings")]
     [SerializeField] private float _cooldown = 0.1f;
 
