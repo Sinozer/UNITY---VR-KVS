@@ -921,8 +921,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d963702ba7184276b4e3e718fc7c832e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _waitingClients
+      Entry: 6
+      Data: 
   _clientPrefab: {fileID: 7442561536104642748, guid: a79cb414256e06a4f90bf3e9e665ff0b, type: 3}
-  _spawnRate: 120
+  _spawnRate: 5
   _clientsConfig:
   - {fileID: 11400000, guid: 339b18a1a227591469eb19de02dead78, type: 2}
   - {fileID: 11400000, guid: ae2c5eee6d74e0b4aa83d13e7b5f907f, type: 2}
@@ -2925,6 +2937,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _onProductScanned: {fileID: 11400000, guid: 6689758e15921fd41bec2a83f5407adb, type: 2}
   _audioSource: {fileID: 3142517591586712194}
+  _cooldown: 0.3
 --- !u!1 &5540263451423714641
 GameObject:
   m_ObjectHideFlags: 0

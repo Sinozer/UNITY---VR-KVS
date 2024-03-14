@@ -15,7 +15,10 @@ MonoBehaviour:
   _clientType: 3
   _timerInSeconds: 10
   _baseSatisfaction: 20
+  _satisfactionLossOnMissingItem: 0.1
+  _satisfactionLossOnForgottenItem: 0.3
   _clientColor: {r: 1, g: 0, b: 0, a: 1}
+  _forgottenItemChance: 1
   _spawnDelayBetweenItems: 0.7
   _maxDifferentItems: 10
   _maxNumberOfSameItems: 1

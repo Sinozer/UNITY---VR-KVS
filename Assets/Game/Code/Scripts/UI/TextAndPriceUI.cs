@@ -14,7 +14,7 @@ public class TextAndPriceUI : MonoBehaviour
     private int _productIndex;
     private ItemSo _productSo;
     
-    public event Action<int> OnRemovedProduct;
+    public event Action<int, ItemSo> OnRemovedProduct;
 
     
     public void Initialize(ItemSo product, int productGlobalIndex)
@@ -25,7 +25,7 @@ public class TextAndPriceUI : MonoBehaviour
     
     public void RemoveProduct()
     {
-        OnRemovedProduct?.Invoke(_productIndex);
+        OnRemovedProduct?.Invoke(_productIndex, _productSo);
     }
     
     public void SetTextAndPrice(string productName, float productPrice)

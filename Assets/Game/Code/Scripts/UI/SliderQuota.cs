@@ -31,7 +31,7 @@ public class SliderQuota : MonoBehaviour
         if (_isPercentageText)
         {
             quota *= 100;
-            _quotaPercentage.text = quota.ToString(CultureInfo.InvariantCulture);
+            _quotaPercentage.text = quota.ToString("00") + " %";
         }
         else
         {
