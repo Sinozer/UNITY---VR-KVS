@@ -35,8 +35,8 @@ public class LightCodeHandler : MonoBehaviour
 	private void ResetCode()
 	{
 		_code = "00";
-		Debug.Log(_code, this);
 		_displayedCode.text = _code;
+		_numericalPad.ResetNumericalPad();
 	}
 	
 	private void GenerateCode()
@@ -46,7 +46,6 @@ public class LightCodeHandler : MonoBehaviour
 		{
 			_code += Random.Range(0, 10).ToString();
 		}
-		Debug.Log(_code, this);
 		_displayedCode.text = _code;
 	}
 	
