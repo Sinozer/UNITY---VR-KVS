@@ -110,7 +110,7 @@ public class SwitchLights : MonoBehaviour
 		}
 
 		_brightLightmap = blightmap.ToArray();
-
+		
 		TurnLightsOn();
 	}
 

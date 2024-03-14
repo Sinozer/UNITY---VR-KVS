@@ -18,17 +18,20 @@ public class LightCodeHandler : MonoBehaviour
     
 	[Header("Audio")]
 	[SerializeField] private AudioSource _audioSource;
+	[SerializeField] private AudioClip _greatSound;
+	[SerializeField] private AudioClip _wrongSound;
 	
 	public void OnConfirmPressed()
 	{
 		if (_numericalPad.GetEnteredPriceAsString() == _code)
 		{
 			TurnLightsOn();
+			if (_audioSource) _audioSource.PlayOneShot(_greatSound);
 		}
 		else
 		{
 			_numericalPad.ResetNumericalPad();
-			if (_audioSource) _audioSource.Play();
+			if (_audioSource) _audioSource.PlayOneShot(_wrongSound);
 		}
 	}
 	

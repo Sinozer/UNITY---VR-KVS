@@ -1335,6 +1335,9 @@ MonoBehaviour:
   _displayedCode: {fileID: 7438331120328482619}
   _codeLength: 4
   _code: 
+  _audioSource: {fileID: 4223649537633972996}
+  _greatSound: {fileID: 8300000, guid: 327957ada849c484c9d71968a9f9dbae, type: 3}
+  _wrongSound: {fileID: 8300000, guid: ef701f6d6f8f7b84cbd3ef06c783ed8c, type: 3}
 --- !u!114 &3864588608026559236
 MonoBehaviour:
   m_ObjectHideFlags: 0

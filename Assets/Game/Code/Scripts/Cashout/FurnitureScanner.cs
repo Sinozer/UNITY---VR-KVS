@@ -11,6 +11,7 @@ public class FurnitureScanner : MonoBehaviour
     
     [SerializeField] private AudioSource _audioSource;
     
+    
     [Header("Settings")]
     [SerializeField] private float _cooldown = 0.1f;
 
@@ -29,7 +30,6 @@ public class FurnitureScanner : MonoBehaviour
                 return;
             }
             
-            Debug.Log("Product " + product.ProductSo.ItemName + " scanned");
             AudioSource.PlayClipAtPoint(_audioSource.clip, transform.position);
             
             _onProductScanned.RaiseEvent(product.ProductSo);
