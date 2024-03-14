@@ -1329,15 +1329,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abbdd54288fd4c75a1d8a25bfafc3bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _minTimerBeforeSwitch: 10
-  _maxTimerBeforeSwitch: 11
+  _minTimerBeforeSwitch: 45
+  _maxTimerBeforeSwitch: 90
   _numericalPad: {fileID: 400863391821194032}
   _displayedCode: {fileID: 7438331120328482619}
   _codeLength: 4
   _code: 
+  _marketRadioPlayer: {fileID: 0}
   _audioSource: {fileID: 4223649537633972996}
   _greatSound: {fileID: 8300000, guid: 327957ada849c484c9d71968a9f9dbae, type: 3}
   _wrongSound: {fileID: 8300000, guid: ef701f6d6f8f7b84cbd3ef06c783ed8c, type: 3}
+  _cashoutBrain: {fileID: 0}
 --- !u!114 &3864588608026559236
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -52,10 +52,10 @@ public class GameManager : MonoBehaviour
         UpdateClientSatisfactionUI();
     }
 
-    public void UpdateQuota(float moneyToAdd, float clientSatisfaction)
+    public void UpdateQuota(float moneyToAdd, float baseSatisfaction, float clientSatisfaction)
     {
         AddMoneyQuota(moneyToAdd);
-        UpdateClientSatisfaction(clientSatisfaction);
+        UpdateClientSatisfaction(baseSatisfaction, clientSatisfaction);
         
         UIManager.Instance.HideClientTracker();
     }
@@ -66,12 +66,12 @@ public class GameManager : MonoBehaviour
         UpdateMoneyQuotaUI();
     }
 
-    private void UpdateClientSatisfaction(float clientSatisfaction)
+    private void UpdateClientSatisfaction(float baseSatisfaction, float clientSatisfaction)
     {
         Debug.Log(clientSatisfaction);
         clientSatisfaction = Mathf.Clamp(clientSatisfaction, 0, MAX_CLIENT_SATISFACTION);
         
-        float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - MAX_CLIENT_SATISFACTION * 0.5f) / MAX_CLIENT_SATISFACTION * 0.5f, -1, 1);
+        float satisfactionMultiplier = Mathf.Clamp((clientSatisfaction - baseSatisfaction * 0.5f) / baseSatisfaction * 0.5f, -1, 1);
         _globalClientSatisfaction += _maxSatisfactionToAdd * satisfactionMultiplier;
         
         Debug.Log(_globalClientSatisfaction);

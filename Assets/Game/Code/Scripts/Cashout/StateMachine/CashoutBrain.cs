@@ -151,7 +151,7 @@ public class CashoutBrain : StateMachine
             OnTotalPriceRegistered?.Invoke(enteredPrice);
             _audioSource.PlayOneShot(_confirmPaymentSong);
             
-            GameManager.Instance.UpdateQuota(enteredPrice, _clientHolder.CurrentClient.ClientSatisfaction);
+            GameManager.Instance.UpdateQuota(enteredPrice,_clientHolder.CurrentClient.client.ClientConfig.BaseSatisfaction, _clientHolder.CurrentClient.ClientSatisfaction);
             
             ResetCashout();
         }

@@ -15,9 +15,16 @@ public class MarketRadioPlayer : MonoBehaviour
     [SerializeField] private AudioClip _announcementSong; 
     [SerializeField] private List<AudioClip> _broadcastMicrophone;
     
+    [Header("Announcement")]
+    [SerializeField, Range(0, 10)] private float _announcementVolume = 4f;
+    [SerializeField, Range(0, 10)] private float _broadcastVolume = 2f;
+    [SerializeField, MinValue(0)] private float _minAnnouncementDelay = 20f;
+    [SerializeField, MinValue(0)] private float _maxAnnouncementDelay = 60f;
+    
     private int _currentTrackIndex;
     private float _baseVolume;
     private bool _isAnnouncementPlaying;
+    private bool _isPaused = false;
 
     private void Awake()
     {
@@ -27,6 +34,11 @@ public class MarketRadioPlayer : MonoBehaviour
 
     private void Start()
     {
+        for (int i = 1; i < _audioSources.Count; i++)
+        {
+            _audioSources[i].timeSamples = _audioSources[0].timeSamples;
+        }
+        
         _currentTrackIndex = _isRandom ? Random.Range(0, _playlist.Count) : 0;
         PlayMusic(_currentTrackIndex);
         StartCoroutine(PlayBroadcastMicrophone());
@@ -125,6 +137,8 @@ public class MarketRadioPlayer : MonoBehaviour
 
     public void Stop()
     {
+        _isPaused = false;
+
         foreach (AudioSource audioSource in _audioSources)
         {
             audioSource.Stop();
@@ -133,6 +147,8 @@ public class MarketRadioPlayer : MonoBehaviour
     
     public void Pause()
     {
+        _isPaused = true;
+        
         foreach (AudioSource audioSource in _audioSources)
         {
             audioSource.Pause();
@@ -141,6 +157,8 @@ public class MarketRadioPlayer : MonoBehaviour
     
     public void Resume()
     {
+        _isPaused = false;
+        
         foreach (AudioSource audioSource in _audioSources)
         {
             audioSource.UnPause();
@@ -155,24 +173,30 @@ public class MarketRadioPlayer : MonoBehaviour
         }
     }
     
+    
+    
     IEnumerator PlayBroadcastMicrophone()
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(60, 125));
+            yield return new WaitForSeconds(Random.Range(_minAnnouncementDelay, _maxAnnouncementDelay));
+            yield return new WaitUntil(() => _isPaused == false);
             
-            Pause();
-            SetVolume(1.5f);
+            SetVolume(_announcementVolume);
             _isAnnouncementPlaying = true;
             PlayMusic(_announcementSong);
             
             yield return new WaitForSeconds(_announcementSong.length + 1);
+            yield return new WaitUntil(() => _isPaused == false);
             
-            SetVolume(_baseVolume);
+            SetVolume(_broadcastVolume);
             AudioClip randomBroadcast = _broadcastMicrophone[Random.Range(0, _broadcastMicrophone.Count)];
             PlayMusic(randomBroadcast);
             
             yield return new WaitForSeconds(randomBroadcast.length + 1);
+            yield return new WaitUntil(() => _isPaused == false);
+            
+            SetVolume(_baseVolume);
             _isAnnouncementPlaying = false;
         }
     }
